@@ -56,9 +56,25 @@
 /**
  * Screen Colors type
 */
-typedef enum {BLACK, RED, GREEN, BROWN, BLUE, MAGENTA, CYAN, LIGHTGRAY,
-        DARKGRAY, LIGHTRED, LIGHTGREEN, YELLOW, LIGHTBLUE, 
-        LIGHTMAGENTA, LIGHTCYAN, WHITE} screenColor; 
+typedef enum {
+    BLACK,
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    MAGENTA,
+    CYAN,
+    LIGHTGRAY,
+    GRAY,
+    LIGHTRED,
+    LIGHTGREEN,
+    LIGHTYELLOW,
+    LIGHTBLUE,
+    LIGHTMAGENTA,
+    LIGHTCYAN,
+    WHITE,
+    BROWN
+} screenColor;
 
 
 
