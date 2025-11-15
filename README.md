@@ -69,4 +69,4 @@ Após resolver as premissas:
 
 ### 📈 Progresso
 
-Acumule XP, desbloqueie receitas mais complexas e ajude Diego a evoluir de Aprendiz a Chef Executivo, dominando a culinária por meio da lógica.
+Acumule XP, desbloqueie receitas mais complexas e ajude Diego a evoluir de Aprendiz a Chef Executivo. Conquiste **badges**, **títulos** e domine a culinária por meio da lógica.
