@@ -1,13 +1,26 @@
-# Programamção Imperativa Funcional - 2025.2
- # CESAR School
+## 🍳 Lógica à la carte
 
-# 👥 Integrantes da Equipe
-O time do projeto é composto por:
-- Aguinaldo Neto - @netokemon
-- Caliel Feijó - @poeisie
-- Eulália Albuquerque - @eulalialbuquerque
-- Elis Tenório - @elistenorio
-- Giulia Ferreira - @giumari18
-- Sarah Cyrne - @sarahcyrne
+> Projeto desenvolvido para a disciplina: **Programação Imperativa e Funcional - 2025.2**
+
+### 🧑‍💻 Equipe
+
+* Aguinaldo Neto (@netokemon)
+* Caliel Feijó (@poeisie)
+* Elis Tenório (@elistenorio)
+* Eulália Albuquerque (@eulalialbuquerque)
+* Giulia Ferreira (@giumari18)
+* Sarah Cyrne (@sarahcyrne) 
+  
+
+### 📖 Descrição do Jogo
+
+
+
+
+
+
+
+
+
 
 
