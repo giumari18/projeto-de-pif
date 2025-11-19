@@ -1,20 +1,9 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include "screen.h"
-#include "keyboard.h"
-#include "ui.h"
-
-#define ARQUIVO_RANKING "ranking.csv"
-
-void pintar_fundo(int largura, int altura, int cor_fundo) {
-  screenSetColor(cor_fundo, cor_fundo);
-  for (int y = 0; y < altura; y++) {
-    screenGotoxy(0, y);
-    for (int x = 0; x < largura; x++) {
-      printf(" ");
-    }
-  }
+void centralizar_texto(const char *texto, int y) {
+    int largura_tela = 80;
+    int x = (largura_tela - strlen(texto)) / 2;
+    if (x < 0) x = 0;
+    screenGotoxy(x, y);
+    printf("%s", texto);
 }
 
 void tela_inicial() {
@@ -27,37 +16,29 @@ void tela_inicial() {
         " ░███      █░███ ░███░███ ░███ ░███ ░███  ███ ███░░███     ███░░███     ░███      █ ███░░███    ░░███     ███ ███░░███  ░███       ░███ ███░███░░░  ",
         " ███████████░░██████ ░░███████ █████░░██████ ░░████████   ░░████████    ███████████░░████████    ░░█████████ ░░████████ █████      ░░█████ ░░██████ ",
         "░░░░░░░░░░░  ░░░░░░   ░░░░░███░░░░░  ░░░░░░   ░░░░░░░░     ░░░░░░░░    ░░░░░░░░░░░  ░░░░░░░░      ░░░░░░░░░   ░░░░░░░░ ░░░░░        ░░░░░   ░░░░░░  ",
-        "                      ███ ░███                                                                                                                      ",
-        "                     ░░██████                                                                                                                       ",
-        "                      ░░░░░░                                                                                                                        ",
         "",
-        "                      Pressione ENTER para iniciar ou ESC para sair"
+        "Pressione ENTER para iniciar ou ESC para sair"
     };
 
     screenClear();
-
     pintar_fundo(150, 45, BLACK);
-
     screenSetColor(WHITE, BLACK);
 
+    int y = 5;
     int linhas = sizeof(arte) / sizeof(arte[0]);
-    int y = 3;
 
     for (int i = 0; i < linhas; i++) {
-        int x = (80 - strlen(arte[i])) / 2;
-        if (x < 0) x = 0;
-        screenGotoxy(x, y++);
-        printf("%s", arte[i]);
+        centralizar_texto(arte[i], y++);
     }
 
     getchar();
 }
 
 int nome_valido(const char *nome) {
-  for (int i = 0; nome[i] != '\0'; i++) {
-    if (!isspace(nome[i])) return 1;
-  }
-  return 0;
+    for (int i = 0; nome[i] != '\0'; i++) {
+        if (!isspace(nome[i])) return 1;
+    }
+    return 0;
 }
 
 void historia(char *nome_jogador) {
@@ -66,79 +47,68 @@ void historia(char *nome_jogador) {
 
     int y = 3;
 
-    screenGotoxy(20, y++);
-    printf("====================================================");
-    screenGotoxy(20, y++);
-    printf("              LÓGICA À LA CARTE                     ");
-    screenGotoxy(20, y++);
-    printf("====================================================");
+    centralizar_texto("====================================================", y++);
+    centralizar_texto("              LÓGICA À LA CARTE                     ", y++);
+    centralizar_texto("====================================================", y++);
 
     screenSetColor(LIGHTGRAY, BLACK);
-    y += 1;
+    y++;
 
-    screenGotoxy(10, y++);
-    printf("Um dia, o professor Diego simplesmente desistiu.");
-    screenGotoxy(10, y++);
-    printf("Largou a vida de tecnologia, saiu da CESAR School, e decidiu");
-    screenGotoxy(10, y++);
-    printf("seguir sua verdadeira vocação: a gastronomia.");
-    screenGotoxy(10, y++);
-    printf("Diego possui grande habilidade culinária, mas estruturou seu");
-    screenGotoxy(10, y++);
-    printf("livro de receitas de maneira um tanto singular...");
-    screenGotoxy(10, y++);
-    printf("utilizando premissas e relações lógico-matemáticas para estruturar");
-    screenGotoxy(10, y++);
-    printf("cada ingrediente e etapa do preparo.");
-    screenGotoxy(10, y++);
+    centralizar_texto("Um dia, o professor Diego simplesmente desistiu.", y++);
+    centralizar_texto("Largou a vida de tecnologia, saiu da CESAR School,", y++);
+    centralizar_texto("e decidiu seguir sua verdadeira vocação: a gastronomia.", y++);
+    centralizar_texto("Diego possui habilidade culinária, mas organizou seu", y++);
+    centralizar_texto("livro de receitas utilizando lógica e matemática.", y++);
+    centralizar_texto("E cabe a VOCÊ ajudá-lo nessa nova jornada.", y++);
+
     screenSetColor(GREEN, BLACK);
-    printf("E cabe a VOCÊ auxiliar Diego em sua nova jornada como chef.");
-
-    screenGotoxy(10, y + 2);
+    centralizar_texto("Pronto para começar?", y + 2);
     screenSetColor(WHITE, BLACK);
-    printf("Pronto para começar?");
-    screenGotoxy(10, y + 3);
-    printf("Pressione ENTER");
+    centralizar_texto("Pressione ENTER", y + 3);
+
     getchar();
 
     screenClear();
     pintar_fundo(150, 45, BLACK);
 
-    int largura_tela = 80;
+    int largura = 80;
     int y_nome = 10;
 
-    const char *pergunta = "Qual seu nome de chef?";
-    int x_pergunta = (largura_tela - strlen(pergunta)) / 2;
-    screenGotoxy(x_pergunta, y_nome);
-    printf("%s", pergunta);
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto("Qual seu nome de chef?", y_nome);
 
     int tentativa = 0;
+
     do {
         if (tentativa) {
-            screenGotoxy(0, y_nome + 2);
-            printf("%*s", largura_tela, " ");
+            screenGotoxy(0, y_nome + 4);
+            printf("%*s", largura, " ");
         }
 
-        int x_input = (largura_tela - 30) / 2;
-        screenGotoxy(x_input, y_nome + 1);
-        printf("------------------------------");
-        screenGotoxy(x_input, y_nome + 1);
+        int x_input = (largura - 30) / 2;
+
+        screenGotoxy(x_input, y_nome + 2);
+        printf("______________________________");
+
+        screenGotoxy(x_input, y_nome + 2);
+        screenSetColor(LIGHTGRAY, BLACK);
         fgets(nome_jogador, 50, stdin);
+        screenSetColor(WHITE, BLACK);
+
         nome_jogador[strcspn(nome_jogador, "\n")] = '\0';
 
         if (!nome_valido(nome_jogador)) {
             screenSetColor(RED, BLACK);
-            int x_erro = (largura_tela - 23) / 2;
-            screenGotoxy(x_erro, y_nome + 3);
-            printf("Nome inválido. Tente novamente.");
+            centralizar_texto("Nome inválido. Tente novamente.", y_nome + 4);
+            screenSetColor(WHITE, BLACK);
         }
 
         tentativa = 1;
-        screenSetColor(WHITE, BLACK);
     } while (!nome_valido(nome_jogador));
 
-    int x_bemvindo = (largura_tela - (37 + strlen(nome_jogador))) / 2;
-    screenGotoxy(x_bemvindo, y_nome + 4);
-    printf("Bem-vinde, %s! Pressione ENTER para começar!", nome_jogador);
+    char mensagem[120];
+    sprintf(mensagem, "Bem-vinde, %s! Pressione ENTER para começar!", nome_jogador);
+
+    centralizar_texto(mensagem, y_nome + 6);
     getchar();
 }
