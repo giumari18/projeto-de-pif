@@ -1,3 +1,12 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include "screen.h"
+#include "keyboard.h"
+#include "ui.h"
+
+#define ARQUIVO_RANKING "ranking.csv"
+
 void centralizar_texto(const char *texto, int y) {
     int largura_tela = 80;
     int x = (largura_tela - strlen(texto)) / 2;
