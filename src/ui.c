@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include <unistd.h>
-#include "screen.h"
 #include <string.h>
-#include "keyboard.h"
 #include <ctype.h>
+#include "screen.h"
+#include "keyboard.h"
+#include "ui.h"
 
 #define ARQUIVO_RANKING "ranking.csv"
 
