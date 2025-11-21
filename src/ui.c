@@ -7,6 +7,16 @@
 
 #define ARQUIVO_RANKING "ranking.csv"
 
+void pintar_fundo(int largura, int altura, int cor_fundo) {
+  screenSetColor(cor_fundo, cor_fundo);
+  for (int y = 0; y < altura; y++) {
+    screenGotoxy(0, y);
+    for (int x = 0; x < largura; x++) {
+      printf(" ");
+    }
+  }
+}
+
 void centralizar_texto(const char *texto, int y) {
     int largura_tela = 80;
     int x = (largura_tela - strlen(texto)) / 2;
