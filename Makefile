@@ -1,17 +1,21 @@
-# Makefile - Versão Corrigida
+# Makefile - Versão Final
 
 # Variáveis do Projeto
 CC = gcc
 CFLAGS = -Wall -Wextra -g
 TARGET = cli_exec
 SRCDIR = src
-INCDIR = include
+# CORREÇÃO FINAL: Ajustando para a localização real dos .h na pasta 'include'
+INCDIR = include 
 BUILDDIR = build
 
 # Caminho para os arquivos .c
 SOURCES = $(wildcard $(SRCDIR)/*.c)
 # Converte os caminhos dos .c para os caminhos dos .o, colocando-os em build/
 OBJECTS = $(patsubst $(SRCDIR)/%.c, $(BUILDDIR)/%.o, $(SOURCES))
+
+# Cria uma lista de arquivos de cabeçalho (.h) com o caminho completo
+HEADERS = $(wildcard $(INCDIR)/*.h)
 
 # Regra principal: 'make all' ou 'make' (gera o executável em build/)
 all: $(BUILDDIR)/$(TARGET)
@@ -25,12 +29,13 @@ $(BUILDDIR)/$(TARGET): $(OBJECTS) | $(BUILDDIR)  # Garante que BUILDDIR exista a
 	$(CC) $(CFLAGS) $^ -o $@
 
 # Compilação: Regra para compilar cada arquivo .c para .o
-$(BUILDDIR)/%.o: $(SRCDIR)/%.c | $(BUILDDIR)
+# A flag -I$(INCDIR) agora será -Iinclude, resolvendo o 'No such file or directory'
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(BUILDDIR) 
 	$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
 
 # Limpeza: Remove arquivos gerados
 clean:
-	rm -rf $(BUILDDIR)/*
+	rm -rf $(BUILDDIR) $(TARGET)
 
 # Rodar (Opcional)
 run: $(BUILDDIR)/$(TARGET)

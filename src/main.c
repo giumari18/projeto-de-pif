@@ -5,6 +5,7 @@
 #include "screen.h"
 #include "keyboard.h"
 #include "timer.h"
+#include "ui.h"
 
 #define FRAME_RATE_MS 50
 
@@ -15,8 +16,16 @@ void drawChocolateCake(int x, int y, int state, int chosen, int correct);
 void drawQuiz(const char *question, const char *options[], int numOptions, int selected, int state, int chosen, int correct);
 void handleInput(int *selected, int *state, int *chosen, int *running, int numOptions);
 
-
 int main() {
+    char nome_jogador[50];
+
+    keyboardInit();
+    screenInit(1);
+    timerInit(FRAME_RATE_MS);
+
+    tela_inicial();
+    historia(nome_jogador);
+
     const char *question = "Qual ingrediente essencial falta para um bolo de chocolate perfeito?";
     
     const char *quizOptions[] = {
@@ -32,10 +41,6 @@ int main() {
     int quizState = STATE_SELECTING;
     int chosenAnswer = -1;
     int isRunning = 1;
-
-    keyboardInit();
-    screenInit(1);
-    timerInit(FRAME_RATE_MS);
 
     while (isRunning) {
         handleInput(&selectedOption, &quizState, &chosenAnswer, &isRunning, numOptions);
