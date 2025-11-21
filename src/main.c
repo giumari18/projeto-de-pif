@@ -5,6 +5,7 @@
 #include "screen.h"
 #include "keyboard.h"
 #include "timer.h"
+#include "perfil.h"
 #include "ui.h"
 
 #define FRAME_RATE_MS 50
@@ -17,14 +18,14 @@ void drawQuiz(const char *question, const char *options[], int numOptions, int s
 void handleInput(int *selected, int *state, int *chosen, int *running, int numOptions);
 
 int main() {
-    char nome_jogador[50];
+    Player player;
 
     keyboardInit();
     screenInit(1);
     timerInit(FRAME_RATE_MS);
 
     tela_inicial();
-    historia(nome_jogador);
+    historia(&player);
 
     const char *question = "Qual ingrediente essencial falta para um bolo de chocolate perfeito?";
     

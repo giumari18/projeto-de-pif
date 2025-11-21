@@ -4,6 +4,7 @@
 #include "screen.h"
 #include "keyboard.h"
 #include "ui.h"
+#include "perfil.h"
 
 #define ARQUIVO_RANKING "ranking.csv"
 
@@ -60,48 +61,21 @@ int nome_valido(const char *nome) {
     return 0;
 }
 
-void historia(char *nome_jogador) {
-    screenClear();
-    pintar_fundo(150, 45, BLACK);
-
-    int y = 3;
-
-    centralizar_texto("====================================================", y++);
-    centralizar_texto("              LÓGICA À LA CARTE                     ", y++);
-    centralizar_texto("====================================================", y++);
-
-    screenSetColor(LIGHTGRAY, BLACK);
-    y++;
-
-    centralizar_texto("Um dia, o professor Diego simplesmente desistiu.", y++);
-    centralizar_texto("Largou a vida de tecnologia, saiu da CESAR School,", y++);
-    centralizar_texto("e decidiu seguir sua verdadeira vocação: a gastronomia.", y++);
-    centralizar_texto("Diego possui habilidade culinária, mas organizou seu", y++);
-    centralizar_texto("livro de receitas utilizando lógica e matemática.", y++);
-    centralizar_texto("E cabe a VOCÊ ajudá-lo nessa nova jornada.", y++);
-
-    screenSetColor(GREEN, BLACK);
-    centralizar_texto("Pronto para começar?", y + 2);
-    screenSetColor(WHITE, BLACK);
-    centralizar_texto("Pressione ENTER", y + 3);
-
-    getchar();
-
+void obter_nome_jogador(Player *p) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
 
     int largura = 80;
     int y_nome = 10;
+    int tentativa = 0;
 
     screenSetColor(WHITE, BLACK);
     centralizar_texto("Qual seu nome de chef?", y_nome);
 
-    int tentativa = 0;
-
     do {
         if (tentativa) {
             screenGotoxy(0, y_nome + 4);
-            printf("%*s", largura, " ");
+            printf("%*s", largura, " "); 
         }
 
         int x_input = (largura - 30) / 2;
@@ -111,23 +85,58 @@ void historia(char *nome_jogador) {
 
         screenGotoxy(x_input, y_nome + 2);
         screenSetColor(LIGHTGRAY, BLACK);
-        fgets(nome_jogador, 50, stdin);
+        
+        fgets(p->nome, 50, stdin);
+        
         screenSetColor(WHITE, BLACK);
 
-        nome_jogador[strcspn(nome_jogador, "\n")] = '\0';
+        p->nome[strcspn(p->nome, "\n")] = '\0';
 
-        if (!nome_valido(nome_jogador)) {
+        if (!nome_valido(p->nome)) {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Nome inválido. Tente novamente.", y_nome + 4);
+            centralizar_texto("Nome invalido. Tente novamente.", y_nome + 4);
             screenSetColor(WHITE, BLACK);
         }
 
         tentativa = 1;
-    } while (!nome_valido(nome_jogador));
+
+    } while (!nome_valido(p->nome));
+}
+
+void historia(Player *p) {
+    screenClear();
+    pintar_fundo(150, 45, BLACK);
+
+    int y = 3;
+
+    centralizar_texto("====================================================", y++);
+    centralizar_texto("              LOGICA A LA CARTE                     ", y++);
+    centralizar_texto("====================================================", y++);
+
+    screenSetColor(LIGHTGRAY, BLACK);
+    y++;
+
+    centralizar_texto("Um dia, o professor Diego simplesmente desistiu.", y++);
+    centralizar_texto("Largou a vida de tecnologia, saiu da CESAR School,", y++);
+    centralizar_texto("e decidiu seguir sua verdadeira vocacao: a gastronomia.", y++);
+    centralizar_texto("Diego possui habilidade culinaria, mas organizou seu", y++);
+    centralizar_texto("livro de receitas utilizando logica e matematica.", y++);
+    centralizar_texto("E cabe a VOCE ajuda-lo nessa nova jornada.", y++);
+
+    screenSetColor(GREEN, BLACK);
+    centralizar_texto("Pronto para comecar?", y + 2);
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto("Pressione ENTER", y + 3);
+
+    getchar();
+
+    obter_nome_jogador(p);
+
+    carregarArquivo(p->nome, p);
 
     char mensagem[120];
-    sprintf(mensagem, "Bem-vinde, %s! Pressione ENTER para começar!", nome_jogador);
+    sprintf(mensagem, "Bem-vinde, %s! (XP: %d). Pressione ENTER!", p->nome, p->xp);
 
-    centralizar_texto(mensagem, y_nome + 6);
+    centralizar_texto(mensagem, 16);
     getchar();
 }
