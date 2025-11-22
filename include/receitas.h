@@ -1,28 +1,20 @@
-#ifndef RECEITAS_H 
-#define RECEITAS_H 
+#ifndef RECEITAS_H
+#define RECEITAS_H
 
-
-typedef struct{
-
-    char nome[50];
+typedef struct {
     char premissas[4][100];
     char alternativas[4][100];
     char alternativaCerta[100];
-    int quantidadePremissas;
-
 } Ingrediente;
 
-
-typedef struct{
-
+typedef struct {
     char nome[50];
     Ingrediente ingredientes[10];
     int quantidadeIngredientes;
-
 } Receita;
 
+int listarNomesDasFases();
 
-void carregarReceitas(Receita receitas[], int *linhaReceita);
-
+int carregarFase(int idFase, Receita *r);
 
 #endif
