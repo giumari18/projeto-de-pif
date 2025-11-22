@@ -7,7 +7,7 @@
 #include "timer.h"
 #include "perfil.h"
 #include "ui.h"
-#import "receitas.h"
+#include "receitas.h"
 
 #define FRAME_RATE_MS 50
 
