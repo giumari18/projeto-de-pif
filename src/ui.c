@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include "screen.h"
 #include "keyboard.h"
 #include "ui.h"
 #include "perfil.h"
 
 #define ARQUIVO_RANKING "ranking.csv"
+#define ARQUIVO_RECEITAS "recipes.csv" 
+#define MAX_LINHA 4096
 
 void pintar_fundo(int largura, int altura, int cor_fundo) {
   screenSetColor(cor_fundo, cor_fundo);
@@ -139,4 +142,95 @@ void historia(Player *p) {
 
     centralizar_texto(mensagem, 16);
     getchar();
+}
+
+int menu_selecao_fase() {
+    int escolha = -1;
+    int total_receitas = 0;
+    char buffer_input[10];
+    char linha[MAX_LINHA];
+
+    // Loop para manter o usuário na tela até escolher certo
+    while (1) {
+        screenClear();
+        pintar_fundo(150, 45, BLACK);
+
+        int y = 3;
+        centralizar_texto("====================================================", y++);
+        centralizar_texto("               LIVRO DE RECEITAS                    ", y++);
+        centralizar_texto("====================================================", y++);
+        y += 2;
+
+        // 1. Ler o arquivo para listar as opções
+        FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
+        if (!arquivo) {
+            screenSetColor(RED, BLACK);
+            centralizar_texto("Erro: Nao foi possivel abrir recipes.csv", y);
+            getchar();
+            return -1; // Retorna erro
+        }
+
+        total_receitas = 0;
+        screenSetColor(YELLOW, BLACK); // Destaque para as opções
+        
+        while (fgets(linha, sizeof(linha), arquivo)) {
+            // Remove o \n
+            linha[strcspn(linha, "\n")] = 0;
+            if (strlen(linha) == 0) continue;
+
+            // Pega apenas o primeiro item (Nome da Receita)
+            char *nome = strtok(linha, ",");
+            if (nome) {
+                char item_menu[100];
+                sprintf(item_menu, "%d. %s", total_receitas + 1, nome);
+                centralizar_texto(item_menu, y++);
+                total_receitas++;
+            }
+        }
+        fclose(arquivo);
+        screenSetColor(WHITE, BLACK);
+
+        if (total_receitas == 0) {
+            centralizar_texto("Nenhuma receita encontrada no livro.", y);
+            getchar();
+            return -1;
+        }
+
+        // 2. Área de Input
+        y += 2;
+        centralizar_texto("Digite o numero da receita:", y++);
+        
+        // Desenha a linha de input
+        int largura = 80;
+        int x_input = (largura - 10) / 2;
+        screenGotoxy(x_input, y);
+        printf("__________");
+        screenGotoxy(x_input, y);
+
+        // Lê a escolha
+        screenSetColor(LIGHTGRAY, BLACK);
+        fgets(buffer_input, 10, stdin);
+        screenSetColor(WHITE, BLACK);
+
+        // Converte para número
+        escolha = atoi(buffer_input);
+
+        // Validação
+        if (escolha > 0 && escolha <= total_receitas) {
+            // Feedback visual de sucesso
+            screenSetColor(GREEN, BLACK);
+            centralizar_texto("Carregando ingredientes...", y + 2);
+            getchar(); // Pequena pausa
+            break; // Sai do loop while
+        } else {
+            // Feedback de erro
+            screenSetColor(RED, BLACK);
+            centralizar_texto("Opcao invalida! Tente novamente.", y + 2);
+            screenSetColor(WHITE, BLACK);
+            getchar(); // Espera o usuário ler o erro antes de limpar a tela
+        }
+    }
+
+    // Retorna o índice (base 0) para o array/função de carga
+    return escolha - 1; 
 }
