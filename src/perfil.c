@@ -10,9 +10,23 @@
 #define ARQUIVO_PERFIL "stats.txt"
 #define MAX_LINHA 256
 
+
+
+char *toLower(char *c){
+
+    unsigned char *p = (unsigned char *)c;
+    while (*p) {
+        *p = tolower(*p);
+        p++;
+    }
+    return c;
+}
+
+
 void carregarArquivo(char *inputNome, Player *p){
 
     FILE *arquivo = fopen(ARQUIVO_PERFIL, "r");
+
     char linha[MAX_LINHA];
     char linhaXP[MAX_LINHA];
     int numero_linha = 0;
@@ -30,9 +44,8 @@ void carregarArquivo(char *inputNome, Player *p){
     strcpy(p -> nome, inputNome);
 
     char nomeLower[MAX_LINHA];
-    strcpy(nomeLower, inputNome);
-    strlwr(nomeLower);
-
+    strcpy(toLower(nomeLower), inputNome);
+    
     p -> xp = 0;
 
     while (fgets(linha, sizeof(linha), arquivo) != NULL) {
@@ -45,9 +58,9 @@ void carregarArquivo(char *inputNome, Player *p){
 
         char linhaArquivoLower[MAX_LINHA];
         strcpy(linhaArquivoLower, linha);
-        strlwr(linhaArquivoLower);
+        toLower(linhaArquivoLower);
 
-        if (strcmp(strlwr(linha), nomeLower) == 0) {
+        if (strcmp(toLower(linha), nomeLower) == 0) {
             p -> xp = atoi(linhaXP);
             encontrado = 1;
             break;
