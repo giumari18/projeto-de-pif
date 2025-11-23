@@ -2,10 +2,14 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "screen.h"
 #include "keyboard.h"
 #include "ui.h"
 #include "perfil.h"
+#include "xp.h"
+#include "receitas.h"
+#include "avaliacao.h"
 
 #define ARQUIVO_RANKING "ranking.csv"
 #define ARQUIVO_RECEITAS "recipes.csv" 
@@ -144,13 +148,13 @@ void historia(Player *p) {
     getchar();
 }
 
-int menu_selecao_fase() {
+int menuSelecaoFase() {
     int escolha = -1;
     int total_receitas = 0;
     char buffer_input[10];
     char linha[MAX_LINHA];
 
-    // Loop para manter o usuário na tela até escolher certo
+    // Loop de mostrar na tela as opções de receitas
     while (1) {
         screenClear();
         pintar_fundo(150, 45, BLACK);
@@ -161,24 +165,18 @@ int menu_selecao_fase() {
         centralizar_texto("====================================================", y++);
         y += 2;
 
-        // 1. Ler o arquivo para listar as opções
         FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
-        if (!arquivo) {
-            screenSetColor(RED, BLACK);
-            centralizar_texto("Erro: Nao foi possivel abrir recipes.csv", y);
-            getchar();
-            return -1; // Retorna erro
-        }
 
         total_receitas = 0;
-        screenSetColor(YELLOW, BLACK); // Destaque para as opções
+
+        screenSetColor(YELLOW, BLACK);
         
         while (fgets(linha, sizeof(linha), arquivo)) {
-            // Remove o \n
+            // Remove o \n do buffer e ignora linhas vazias com essas duas linhas abaixo respectivamente
             linha[strcspn(linha, "\n")] = 0;
             if (strlen(linha) == 0) continue;
 
-            // Pega apenas o primeiro item (Nome da Receita)
+            // Pega apenas o primeiro item (Nome da Receita) no arquivo CSV
             char *nome = strtok(linha, ",");
             if (nome) {
                 char item_menu[100];
@@ -187,50 +185,186 @@ int menu_selecao_fase() {
                 total_receitas++;
             }
         }
+
         fclose(arquivo);
         screenSetColor(WHITE, BLACK);
 
-        if (total_receitas == 0) {
-            centralizar_texto("Nenhuma receita encontrada no livro.", y);
-            getchar();
-            return -1;
-        }
-
-        // 2. Área de Input
         y += 2;
         centralizar_texto("Digite o numero da receita:", y++);
         
-        // Desenha a linha de input
         int largura = 80;
         int x_input = (largura - 10) / 2;
         screenGotoxy(x_input, y);
         printf("__________");
         screenGotoxy(x_input, y);
 
-        // Lê a escolha
         screenSetColor(LIGHTGRAY, BLACK);
         fgets(buffer_input, 10, stdin);
         screenSetColor(WHITE, BLACK);
 
-        // Converte para número
         escolha = atoi(buffer_input);
 
-        // Validação
         if (escolha > 0 && escolha <= total_receitas) {
-            // Feedback visual de sucesso
             screenSetColor(GREEN, BLACK);
             centralizar_texto("Carregando ingredientes...", y + 2);
-            getchar(); // Pequena pausa
-            break; // Sai do loop while
+            getchar(); 
+            break; 
         } else {
-            // Feedback de erro
             screenSetColor(RED, BLACK);
             centralizar_texto("Opcao invalida! Tente novamente.", y + 2);
             screenSetColor(WHITE, BLACK);
-            getchar(); // Espera o usuário ler o erro antes de limpar a tela
+            getchar();
+        }
+    }
+    return escolha - 1; 
+}
+
+int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
+    int selecionado = 0; // 0=A, 1=B, 2=C, 3=D
+    int rodando = 1;
+
+    while (rodando) {
+
+        screenClear();
+        pintar_fundo(150, 45, BLACK);
+
+        char titulo[100];
+        sprintf(titulo, "INGREDIENTE %d / %d", indice, total);
+        
+        screenSetColor(CYAN, BLACK);
+        centralizar_texto("========================================", 2);
+        centralizar_texto(titulo, 3);
+        centralizar_texto("========================================", 4);
+
+        screenSetColor(YELLOW, BLACK);
+        centralizar_texto("--- DICAS ---", 7);
+        
+        screenSetColor(WHITE, BLACK);
+        for (int i = 0; i < 4; i++) {
+            if (strlen(ing->premissas[i]) > 0) {
+                screenGotoxy(30, 9 + i); 
+                printf("- %s", ing->premissas[i]);
+            }
+        }
+
+        screenSetColor(GREEN, BLACK);
+        centralizar_texto("--- QUAL A ALTERNATIVA? ---", 15);
+
+        for (int i = 0; i < 4; i++) {
+            int y_pos = 18 + (i * 2); 
+            int x_pos = 30; 
+
+            screenGotoxy(x_pos, y_pos);
+
+            //Se o i for o que está selecionado, grifa ele em branco se não, normal
+            if (i == selecionado) {
+                screenSetColor(BLACK, WHITE); 
+                printf(" > %c) %s < ", 'A' + i, ing->alternativas[i]);
+            } else {
+                screenSetColor(WHITE, BLACK);
+                printf("   %c) %s   ", 'A' + i, ing->alternativas[i]);
+            }
+        }
+
+        screenSetColor(GRAY, BLACK);
+        centralizar_texto("Use W/S para navegar e ENTER para confirmar", 30);
+
+        //USUARIO SELECIONAR UMA OPCAO
+        if (keyhit()) {
+            int ch = readch();
+
+            if (ch == 'w' || ch == 'W') {
+                selecionado--;
+                if (selecionado < 0) selecionado = 3; 
+            }
+            else if (ch == 's' || ch == 'S') {
+                selecionado++;
+                if (selecionado > 3) selecionado = 0; 
+            }
+            else if (ch == 10 || ch == 13) { 
+                rodando = 0; 
+            }
+        }
+
+        // Pequena pausa para não fritar a CPU
+        usleep(50000); // 50ms
+    }
+
+    return selecionado; // Retorna 0, 1, 2 ou 3 para a opção final quando o user clicou enter
+}
+
+void mostrarTelaAcerto(char *resposta, int xpGanho) {
+    screenClear();
+    pintar_fundo(150, 45, BLACK);
+    
+    screenSetColor(GREEN, BLACK);
+    centralizar_texto("VAMOS ARRASANDO!", 15);
+    
+    char msg[100];
+    sprintf(msg, "O ingrediente era mesmo: %s", resposta);
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto(msg, 17);
+
+    sprintf(msg, "+%d XP", xpGanho);
+    screenSetColor(YELLOW, BLACK);
+    centralizar_texto(msg, 19);
+
+    screenSetColor(WHITE, BLACK);
+    getchar(); // Espera um Enter 
+}
+
+void mostrarTelaErro(char *escolha, char *correta) {
+    screenClear();
+    pintar_fundo(150, 45, BLACK);
+    
+    screenSetColor(RED, BLACK);
+    centralizar_texto("VIXY TA ERRADO...", 15);
+    
+    char msg[100];
+    sprintf(msg, "Voce escolheu: %s", escolha);
+    screenSetColor(GRAY, BLACK);
+    centralizar_texto(msg, 17);
+
+    sprintf(msg, "A resposta certa era: %s", correta);
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto(msg, 19);
+
+    getchar(); // Espera um enter
+}
+
+void mostrarFimFase(char *nomeReceita) {
+    screenClear();
+    pintar_fundo(150, 45, BLACK);
+    screenSetColor(CYAN, BLACK);
+    centralizar_texto("RECEITA CONCLUIDA!", 15);
+    centralizar_texto(nomeReceita, 17);
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto("Pressione ENTER para voltar ao menu", 20);
+    getchar();
+}
+
+
+
+void jogarFase(Receita *r, Player *p) {
+    int xp_por_acerto = 50;
+    int qntAcertos = 0;
+
+    for (int i = 0; i < r->quantidadeIngredientes; i++) {
+        
+        Ingrediente *ingAtual = &r->ingredientes[i];
+
+        int indiceEscolhido = rodarQuestaoIngrediente(ingAtual, i + 1, r->quantidadeIngredientes);
+
+        char *textoEscolhido = ingAtual->alternativas[indiceEscolhido];
+
+        if (strcmp(textoEscolhido, ingAtual->alternativaCerta) == 0) {
+            atualizarXP(xp_por_acerto, p);
+            mostrar_tela_acerto(ingAtual->alternativaCerta, xp_por_acerto);
+        } else {
+            mostrar_tela_erro(textoEscolhido, ingAtual->alternativaCerta);            
         }
     }
 
-    // Retorna o índice (base 0) para o array/função de carga
-    return escolha - 1; 
+    // Fim da receita (aprimorar esse fim de fase pra mostrar estrelas obtidas ou algo assim)
+    mostrar_fim_fase(r->nome);
 }

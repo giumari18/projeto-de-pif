@@ -7,7 +7,7 @@
 #include "timer.h"
 #include "perfil.h"
 #include "ui.h"
-#import "receitas.h"
+#include "receitas.h"
 
 #define FRAME_RATE_MS 50
 
@@ -23,13 +23,23 @@ int main() {
     tela_inicial();
     historia(&player);
 
-    // 1. Chama o menu bonito da UI
-    int idFase = menu_selecao_fase();
+   int jogando = 1;
+    while (jogando) {
+        
+        // Seleciona a fase
+        int idFase = menu_selecao_fase();
 
-    // Se retornou -1, deu erro ou saiu
-    if (idFase == -1) {
-        screenDestroy();
-        return 0;
+        if (idFase == -1) {
+            jogando = 0; // Sai do jogo se escolher sair/erro
+        } else {
+            // Carrega a receita escolhida
+            Receita faseAtual;
+            if (carregarFase(idFase, &faseAtual)) {
+
+                jogarFase(&faseAtual, &player);
+                
+            }
+        }
     }
 
 
