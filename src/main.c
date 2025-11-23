@@ -27,7 +27,7 @@ int main() {
     while (jogando) {
         
         // Seleciona a fase
-        int idFase = menu_selecao_fase();
+        int idFase = menuSelecaoFase();
 
         if (idFase == -1) {
             jogando = 0; // Sai do jogo se escolher sair/erro

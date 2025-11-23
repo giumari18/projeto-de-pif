@@ -359,12 +359,12 @@ void jogarFase(Receita *r, Player *p) {
 
         if (strcmp(textoEscolhido, ingAtual->alternativaCerta) == 0) {
             atualizarXP(xp_por_acerto, p);
-            mostrar_tela_acerto(ingAtual->alternativaCerta, xp_por_acerto);
+            mostrarTelaAcerto(ingAtual->alternativaCerta, xp_por_acerto);
         } else {
-            mostrar_tela_erro(textoEscolhido, ingAtual->alternativaCerta);            
+            mostrarTelaErro(textoEscolhido, ingAtual->alternativaCerta);            
         }
     }
 
     // Fim da receita (aprimorar esse fim de fase pra mostrar estrelas obtidas ou algo assim)
-    mostrar_fim_fase(r->nome);
+    mostrarFimFase(r->nome);
 }

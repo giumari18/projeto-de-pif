@@ -5,7 +5,7 @@
 
 void tela_inicial();
 void historia(Player *p);
-int menuSelacaoFase();
+int menuSelecaoFase();
 
 int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total);
 
