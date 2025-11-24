@@ -169,7 +169,7 @@ void historia(Player *p) {
 
     carregarArquivo(p->nome, p);
 
-    int nivel = calcularNivel(p->xp);
+    int nivel = calcularNivel(p);
 
     char mensagem[120];
 
