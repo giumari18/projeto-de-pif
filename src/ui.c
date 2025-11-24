@@ -142,7 +142,7 @@ void historia(Player *p) {
     int y = 3;
 
     centralizar_texto("====================================================", y++);
-    centralizar_texto("                  LOGICA A LA CARTE                 ", y++);
+    centralizar_texto("                  LÓGICA À LA CARTE                 ", y++);
     centralizar_texto("====================================================", y++);
 
     screenSetColor(LIGHTGRAY, BLACK);
