@@ -169,8 +169,11 @@ void historia(Player *p) {
 
     carregarArquivo(p->nome, p);
 
+    int nivel = calcularNivel(p->xp);
+
     char mensagem[120];
-    sprintf(mensagem, "Bem-vinde, %s! (XP: %d). Pressione ENTER!", p->nome, p->xp);
+
+    sprintf(mensagem, "Bem-vinde, Chef %s! (Nivel %d - XP: %d). ENTER para iniciar!", p->nome, nivel, p->xp);
 
     centralizar_texto(mensagem, 16);
     getchar();
@@ -279,75 +282,81 @@ int menuSelecaoFase() {
 int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
     int selecionado = 0; // 0=A, 1=B, 2=C, 3=D
     int rodando = 1;
+    int desenhar = 1;
+
+
+    screenClear();
+    pintar_fundo(150, 45, BLACK);
+
+    char titulo[100];
+    sprintf(titulo, "INGREDIENTE %d / %d", indice, total);
+    
+    screenSetColor(CYAN, BLACK);
+    centralizar_texto("========================================", 2);
+    centralizar_texto(titulo, 3);
+    centralizar_texto("========================================", 4);
+
+    screenSetColor(YELLOW, BLACK);
+    centralizar_texto("--- DICAS ---", 7);
+    
+    screenSetColor(WHITE, BLACK);
+    for (int i = 0; i < 4; i++) {
+        if (strlen(ing->premissas[i]) > 0) {
+            screenGotoxy(30, 9 + i); 
+            printf("- %s", ing->premissas[i]);
+        }
+    }
+
+    screenSetColor(GREEN, BLACK);
+    centralizar_texto("--- QUAL E A ALTERNATIVA? ---", 15);
+
+
+    screenSetColor(GRAY, BLACK);
+    centralizar_texto("Use W/S para navegar e ENTER para confirmar", 30);
+
 
     while (rodando) {
-
-        screenClear();
-        pintar_fundo(150, 45, BLACK);
-
-        char titulo[100];
-        sprintf(titulo, "INGREDIENTE %d / %d", indice, total);
         
-        screenSetColor(CYAN, BLACK);
-        centralizar_texto("========================================", 2);
-        centralizar_texto(titulo, 3);
-        centralizar_texto("========================================", 4);
+        if (desenhar) {
+            for (int i = 0; i < 4; i++) {
+                int y_pos = 18 + (i * 2);
+                int x_pos = 30; 
 
-        screenSetColor(YELLOW, BLACK);
-        centralizar_texto("--- DICAS ---", 7);
-        
-        screenSetColor(WHITE, BLACK);
-        for (int i = 0; i < 4; i++) {
-            if (strlen(ing->premissas[i]) > 0) {
-                screenGotoxy(30, 9 + i); 
-                printf("- %s", ing->premissas[i]);
+                screenGotoxy(x_pos, y_pos);
+
+                if (i == selecionado) {
+                    screenSetColor(BLACK, WHITE); 
+                    printf(" > %c) %s < ", 'A' + i, ing->alternativas[i]);
+                } else {
+                    screenSetColor(WHITE, BLACK);
+                    printf("   %c) %s   ", 'A' + i, ing->alternativas[i]);
+                }
             }
+            desenhar = 0;
         }
 
-        screenSetColor(GREEN, BLACK);
-        centralizar_texto("--- QUAL A ALTERNATIVA? ---", 15);
-
-        for (int i = 0; i < 4; i++) {
-            int y_pos = 18 + (i * 2); 
-            int x_pos = 30; 
-
-            screenGotoxy(x_pos, y_pos);
-
-            //Se o i for o que está selecionado, grifa ele em branco se não, normal
-            if (i == selecionado) {
-                screenSetColor(BLACK, WHITE); 
-                printf(" > %c) %s < ", 'A' + i, ing->alternativas[i]);
-            } else {
-                screenSetColor(WHITE, BLACK);
-                printf("   %c) %s   ", 'A' + i, ing->alternativas[i]);
-            }
-        }
-
-        screenSetColor(GRAY, BLACK);
-        centralizar_texto("Use W/S para navegar e ENTER para confirmar", 30);
-
-        //USUARIO SELECIONAR UMA OPCAO
         if (keyhit()) {
             int ch = readch();
 
             if (ch == 'w' || ch == 'W') {
                 selecionado--;
-                if (selecionado < 0) selecionado = 3; 
+                if (selecionado < 0) selecionado = 3;
+                desenhar = 1; 
             }
             else if (ch == 's' || ch == 'S') {
                 selecionado++;
-                if (selecionado > 3) selecionado = 0; 
+                if (selecionado > 3) selecionado = 0;
+                desenhar = 1; 
             }
-            else if (ch == 10 || ch == 13) { 
-                rodando = 0; 
+            else if (ch == 10 || ch == 13) {
+                rodando = 0;
             }
         }
 
-        // Pequena pausa para não fritar a CPU
         usleep(50000); // 50ms
     }
 
-    return selecionado; // Retorna 0, 1, 2 ou 3 para a opção final quando o user clicou enter
+    return selecionado;
 }
 
 void mostrarTelaAcerto(char *resposta, int xpGanho) {

@@ -6,5 +6,7 @@
 
 void atualizarXP(int xpGanho, Player *p);
 
+int calcularNivel(int xp);
+
 
 #endif

@@ -11,36 +11,34 @@
 
 #define FRAME_RATE_MS 50
 
-
 int main() {
     Player player;
-    Receita receita;
 
-    tela_inicial();
     keyboardInit();
     screenInit(1);
     timerInit(FRAME_RATE_MS);
+
+    tela_inicial();
     historia(&player);
 
    int jogando = 1;
     while (jogando) {
         
-        // Seleciona a fase
         int idFase = menuSelecaoFase();
 
         if (idFase == -1) {
-            jogando = 0; // Sai do jogo se escolher sair/erro
+            jogando = 0; 
         } else {
-            // Carrega a receita escolhida
             Receita faseAtual;
-            if (carregarFase(idFase, &faseAtual)) {
+            
+            faseAtual.ingredientes = NULL;
 
+            if (carregarFase(idFase, &faseAtual)) {
                 jogarFase(&faseAtual, &player);
-                
+                liberarReceita(&faseAtual);
             }
         }
     }
-
 
     keyboardDestroy();
     screenDestroy();
