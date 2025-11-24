@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "receitas.h"
+#include <ctype.h>
 
 #define ARQUIVO_RECEITAS "recipes.csv"
 #define MAX_LINHA 4096

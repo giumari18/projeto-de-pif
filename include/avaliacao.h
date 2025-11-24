@@ -3,7 +3,8 @@
 
 #include "perfil.h"
 
-void aumentarXP(Player *p, int quantidadeXP);
 
+void definirEstrelas(Player *p, int quantidadeAcertos, int totalQuestoes);
+void mostrarEstrelas(Player *p, int estrelas);
 
 #endif

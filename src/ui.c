@@ -267,7 +267,8 @@ int menuSelecaoFase() {
         if (escolha > 0 && escolha <= total_receitas) {
             screenSetColor(GREEN, BLACK);
             centralizar_texto("Carregando ingredientes...", y + 6);
-            getchar(); 
+            fflush(stdout);
+            usleep(2000000); 
             break; 
         } else {
             screenSetColor(RED, BLACK);
@@ -410,8 +411,11 @@ void mostrarFimFase(char *nomeReceita) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
     screenSetColor(CYAN, BLACK);
-    centralizar_texto("RECEITA CONCLUÍDA!", 15);
-    centralizar_texto(nomeReceita, 17);
+    centralizar_texto("FIM DE FASE!", 15);
+    centralizar_texto("Sua avaliação: ", 17);
+   
+
+
     screenSetColor(WHITE, BLACK);
     centralizar_texto("Pressione ENTER para voltar ao menu", 20);
     getchar();
@@ -442,3 +446,4 @@ void jogarFase(Receita *r, Player *p) {
     // Fim da receita (aprimorar esse fim de fase pra mostrar estrelas obtidas ou algo assim)
     mostrarFimFase(r->nome);
 }
+
