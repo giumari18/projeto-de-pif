@@ -73,12 +73,12 @@ void atualizarXP(int xpGanho, Player *p){
     rename(ARQUIVO_TEMPORARIO, AQRUIVO_PERFIL);
 }
 
-int _recursaoNivel(int xpRestante, int custoAtual) {
+int _recursaoNivel(int xp, int custoAtual) {
 
-    if (xpRestante < custoAtual) {
+    if (xp < custoAtual) {
         return 1;
     }
-    return 1 + _recursaoNivel(xpRestante - custoAtual, custoAtual + 50);
+    return 1 + _recursaoNivel(xp - custoAtual, custoAtual + 50);
 }
 
 
