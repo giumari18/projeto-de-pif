@@ -20,20 +20,19 @@ void definirEstrelas(Player *p, char *nomeFase, int quantidadeAcertos, int total
 
     float proporcao = (float)quantidadeAcertos / totalQuestoes;
 
-    if (proporcao == 0) {
-        estrelas = 0;
-        
-    } else if (proporcao >= 0) {
-        estrelas = 1;
-    } else if (proporcao >= 0.20) {
-        estrelas = 2;
-    } else if (proporcao >= 0.40) {
-        estrelas = 3;
-    } else if (proporcao > 0.60) {
-        estrelas = 4;
-    } else if( proporcao == 1.0) {
-        estrelas = 5;
-    }
+    if (proporcao == 1.0) {
+            estrelas = 5;
+        } else if (proporcao >= 0.80) { 
+            estrelas = 4;
+        } else if (proporcao >= 0.60) { 
+            estrelas = 3;
+        } else if (proporcao >= 0.40) { 
+            estrelas = 2;
+        } else if (proporcao > 0.0) { 
+            estrelas = 1;
+        } else {
+            estrelas = 0;
+        }
     
     mostrarEstrelas(p, estrelas);
     salvarEstrelasFase(p->nome, nomeFase, estrelas);
