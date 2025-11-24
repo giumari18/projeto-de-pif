@@ -1,18 +1,22 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "perfil.h"
+#include <stdlib.h>
+#include <unistd.h>
 #include "screen.h"
 #include "keyboard.h"
-#include "timer.h"
-#include "xp.c"
+#include "ui.h"
+#include "perfil.h"
+#include "xp.h"
+#include "receitas.h"
+#include "avaliacao.h"
+#include "conquistas.h"
 
 
 int estrelas;
 
  
-void definirEstrelas(Player *p, int quantidadeAcertos, int totalQuestoes) {
+void definirEstrelas(Player *p, char *nomeFase, int quantidadeAcertos, int totalQuestoes) {
 
     float proporcao = (float)quantidadeAcertos / totalQuestoes;
 
@@ -32,6 +36,7 @@ void definirEstrelas(Player *p, int quantidadeAcertos, int totalQuestoes) {
     }
     
     mostrarEstrelas(p, estrelas);
+    salvarEstrelasFase(p->nome, nomeFase, estrelas);
 }
 
 
@@ -51,6 +56,7 @@ void mostrarEstrelas(Player *p, int estrelas) {
     } else if( estrelas == 5) {
         centralizar_texto("★ ★ ★ ★ ★", 19);
     
+}
 }
 
 

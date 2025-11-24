@@ -5,7 +5,8 @@
 
 void tela_inicial();
 void historia(Player *p);
-int menuSelecaoFase();
+int menuSelecaoFase(Player *p);
+void centralizar_texto(const char *texto, int y);
 
 int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total);
 

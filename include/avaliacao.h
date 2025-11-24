@@ -4,7 +4,7 @@
 #include "perfil.h"
 
 
-void definirEstrelas(Player *p, int quantidadeAcertos, int totalQuestoes);
+void definirEstrelas(Player *p, char *nomeFase, int quantidadeAcertos, int totalQuestoes);
 void mostrarEstrelas(Player *p, int estrelas);
 
 #endif

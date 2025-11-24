@@ -11,6 +11,7 @@
 #include "receitas.h"
 #include "avaliacao.h"
 
+#define ARQUIVO_PROGRESSO "progresso.csv"
 #define ARQUIVO_RANKING "ranking.csv"
 #define ARQUIVO_RECEITAS "recipes.csv" 
 #define MAX_LINHA 4096
@@ -179,15 +180,46 @@ void historia(Player *p) {
     getchar();
 }
 
-int menuSelecaoFase() {
+int buscar_estrelas(const char *nomeJogador, const char *nomeFase) {
+    FILE *arquivo = fopen(ARQUIVO_PROGRESSO, "r");
+    if (!arquivo) return 0;
+
+    char linha[MAX_LINHA];
+    int estrelas = 0;
+
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        linha[strcspn(linha, "\n")] = 0;
+        
+        char *csvNome = strtok(linha, ",");
+        char *csvFase = strtok(NULL, ",");
+        char *csvEstrelas = strtok(NULL, ",");
+
+        if (csvNome && csvFase && csvEstrelas) {
+            if (strcmp(csvNome, nomeJogador) == 0 && strcmp(csvFase, nomeFase) == 0) {
+                estrelas = atoi(csvEstrelas);
+                break;
+            }
+        }
+    }
+    fclose(arquivo);
+    return estrelas;
+}
+
+
+void montar_string_estrelas(int qtd, char *buffer) {
+    buffer[0] = '\0'; 
+    for (int i = 0; i < 5; i++) {
+        if (i < qtd) strcat(buffer, "★ ");
+        else strcat(buffer, "☆ ");
+    }
+}
+
+int menuSelecaoFase(Player *p) {
     int escolha = -1;
     int total_receitas = 0;
     char buffer_input[10];
     char linha[MAX_LINHA];
 
-    
-
-    // Loop de mostrar na tela as opções de receitas
     while (1) {
         screenClear();
         pintar_fundo(150, 45, BLACK);
@@ -199,21 +231,38 @@ int menuSelecaoFase() {
         y += 2;
 
         FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
+        
+        // Se der erro ao abrir receitas
+        if (!arquivo) {
+            screenSetColor(RED, BLACK);
+            centralizar_texto("Erro: Arquivo de receitas nao encontrado!", y);
+            getchar();
+            return -1;
+        }
 
         total_receitas = 0;
-
-        screenSetColor(YELLOW, BLACK);
         
         while (fgets(linha, sizeof(linha), arquivo)) {
-            // Remove o \n do buffer e ignora linhas vazias com essas duas linhas abaixo respectivamente
             linha[strcspn(linha, "\n")] = 0;
             if (strlen(linha) == 0) continue;
 
-            // Pega apenas o primeiro item (Nome da Receita) no arquivo CSV
-            char *nome = strtok(linha, ",");
-            if (nome) {
-                char item_menu[100];
-                sprintf(item_menu, "%d. %s", total_receitas + 1, nome);
+            char *nome_receita = strtok(linha, ",");
+            
+            if (nome_receita) {
+
+                int qtd_estrelas = buscar_estrelas(p->nome, nome_receita);
+
+                char desenho_estrelas[30];
+                montar_string_estrelas(qtd_estrelas, desenho_estrelas);
+
+                char item_menu[150];
+                
+                // Cor: Amarelo se tiver estrelas, Branco se nunca jogou
+                if (qtd_estrelas > 0) screenSetColor(YELLOW, BLACK);
+                else screenSetColor(WHITE, BLACK);
+
+                sprintf(item_menu, "%d. %-25s  %s", total_receitas + 1, nome_receita, desenho_estrelas);
+                
                 centralizar_texto(item_menu, y++);
                 total_receitas++;
             }
@@ -223,8 +272,8 @@ int menuSelecaoFase() {
         screenSetColor(WHITE, BLACK);
 
         y += 2;
-        centralizar_texto("Digite o número da receita:", y++);
-        y++; // Espaço extra para a caixinha
+        centralizar_texto("Digite o numero da receita:", y++);
+        y++; 
         
         // Desenha a caixinha
         int largura = 80;
@@ -233,29 +282,24 @@ int menuSelecaoFase() {
         
         screenSetColor(LIGHTGRAY, BLACK);
         
-        // Borda superior
         screenGotoxy(x_caixa, y);
         printf("┌");
         for (int i = 0; i < largura_caixa - 2; i++) printf("─");
         printf("┐");
         
-        // Meio (onde digita)
         screenGotoxy(x_caixa, y + 1);
         printf("│");
         screenGotoxy(x_caixa + largura_caixa - 1, y + 1);
         printf("│");
         
-        // Borda inferior
         screenGotoxy(x_caixa, y + 2);
         printf("└");
         for (int i = 0; i < largura_caixa - 2; i++) printf("─");
         printf("┘");
         
-        // Mensagem de ENTER
         screenSetColor(LIGHTGRAY, BLACK);
         centralizar_texto("Pressione ENTER para confirmar", y + 4);
         
-        // Posiciona cursor dentro da caixa
         screenGotoxy(x_caixa + 2, y + 1);
         screenSetColor(WHITE, BLACK);
         
@@ -272,9 +316,9 @@ int menuSelecaoFase() {
             break; 
         } else {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Opção inválida! Tente novamente.", y + 6);
+            centralizar_texto("Opcao invalida! Tente novamente.", y + 6);
             screenSetColor(WHITE, BLACK);
-            getchar();
+            usleep(1500000); 
         }
     }
     return escolha - 1; 
@@ -413,9 +457,6 @@ void mostrarFimFase(char *nomeReceita) {
     screenSetColor(CYAN, BLACK);
     centralizar_texto("FIM DE FASE!", 15);
     centralizar_texto("Sua avaliação: ", 17);
-   
-
-
     screenSetColor(WHITE, BLACK);
     centralizar_texto("Pressione ENTER para voltar ao menu", 20);
     getchar();
@@ -437,13 +478,13 @@ void jogarFase(Receita *r, Player *p) {
 
         if (strcmp(textoEscolhido, ingAtual->alternativaCerta) == 0) {
             atualizarXP(xp_por_acerto, p);
+            qntAcertos++;
             mostrarTelaAcerto(ingAtual->alternativaCerta, xp_por_acerto);
         } else {
             mostrarTelaErro(textoEscolhido, ingAtual->alternativaCerta);            
         }
     }
 
-    // Fim da receita (aprimorar esse fim de fase pra mostrar estrelas obtidas ou algo assim)
+    definirEstrelas(p, r->nome, qntAcertos, r->quantidadeIngredientes);
     mostrarFimFase(r->nome);
 }
-

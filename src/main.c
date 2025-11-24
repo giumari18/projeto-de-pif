@@ -24,7 +24,7 @@ int main() {
    int jogando = 1;
     while (jogando) {
         
-        int idFase = menuSelecaoFase();
+        int idFase = menuSelecaoFase(&player);
 
         if (idFase == -1) {
             jogando = 0; 
