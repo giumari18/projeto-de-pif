@@ -47,7 +47,7 @@ void tela_inicial() {
         "                     ░░██████                                                                                                                       ",
         "                      ░░░░░░                                                                                                                        ",
         "",
-        "Pressione ENTER para iniciar ou ESC para sair"
+        "ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤPressione ENTER para iniciar ou ESC para sair"
     };
 
     screenClear();
