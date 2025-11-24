@@ -6,6 +6,19 @@
 #define ARQUIVO_RECEITAS "recipes.csv"
 #define MAX_LINHA 4096
 
+void trim(char *str) {
+    char *end;
+
+    while(isspace((unsigned char)*str)) str++;
+
+    if(*str == 0) return;
+
+    end = str + strlen(str) - 1;
+    while(end > str && isspace((unsigned char)*end)) end--;
+
+    *(end + 1) = 0;
+}
+
 int listarNomesDasFases() {
     FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
     if (!arquivo) return 0;
@@ -45,13 +58,18 @@ int carregarFase(int idFase, Receita *r) {
 
         if (linhaAtual == idFase) {
             linha[strcspn(linha, "\n")] = 0;
+            linha[strcspn(linha, "\r")] = 0;
             encontrou = 1;
             
             char *token = strtok(linha, ",");
-            if(token) strcpy(r->nome, token);
+            if(token) {
+                trim(token);
+                strcpy(r->nome, token);
+            }
 
             token = strtok(NULL, ",");
             if(!token) break;
+            trim(token);
             int qtd = atoi(token);
             
             r->quantidadeIngredientes = qtd;
@@ -67,16 +85,25 @@ int carregarFase(int idFase, Receita *r) {
                 
                 for(int p=0; p<4; p++) {
                     token = strtok(NULL, ",");
-                    if(token) strcpy(ing->premissas[p], token);
+                    if(token) {
+                        trim(token);
+                        strcpy(ing->premissas[p], token);
+                    }
                 }
                 
                 for(int a=0; a<4; a++) {
                     token = strtok(NULL, ",");
-                    if(token) strcpy(ing->alternativas[a], token);
+                    if(token) {
+                        trim(token);
+                        strcpy(ing->alternativas[a], token);
+                    }
                 }
                 
                 token = strtok(NULL, ",");
-                if(token) strcpy(ing->alternativaCerta, token);
+                if(token) {
+                    trim(token);
+                    strcpy(ing->alternativaCerta, token);
+                }
             }
             
             break; 
