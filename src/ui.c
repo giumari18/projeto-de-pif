@@ -91,7 +91,6 @@ void obter_nome_jogador(Player *p) {
         int x_input = (largura - 30) / 2;
 
         screenGotoxy(x_input, y_nome + 2);
-        printf("______________________________");
 
         screenGotoxy(x_input, y_nome + 2);
         screenSetColor(LIGHTGRAY, BLACK);
@@ -104,7 +103,7 @@ void obter_nome_jogador(Player *p) {
 
         if (!nome_valido(p->nome)) {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Nome invalido. Tente novamente.", y_nome + 4);
+            centralizar_texto("Nome inválido. Tente novamente.", y_nome + 4);
             screenSetColor(WHITE, BLACK);
         }
 
@@ -120,7 +119,7 @@ void historia(Player *p) {
     int y = 3;
 
     centralizar_texto("====================================================", y++);
-    centralizar_texto("              LOGICA A LA CARTE                     ", y++);
+    centralizar_texto("                  LOGICA A LA CARTE                 ", y++);
     centralizar_texto("====================================================", y++);
 
     screenSetColor(LIGHTGRAY, BLACK);
@@ -128,13 +127,16 @@ void historia(Player *p) {
 
     centralizar_texto("Um dia, o professor Diego simplesmente desistiu.", y++);
     centralizar_texto("Largou a vida de tecnologia, saiu da CESAR School,", y++);
-    centralizar_texto("e decidiu seguir sua verdadeira vocacao: a gastronomia.", y++);
-    centralizar_texto("Diego possui habilidade culinaria, mas organizou seu", y++);
-    centralizar_texto("livro de receitas utilizando logica e matematica.", y++);
-    centralizar_texto("E cabe a VOCE ajuda-lo nessa nova jornada.", y++);
+    centralizar_texto("e decidiu seguir sua verdadeira vocação: a gastronomia.", y++);
+    centralizar_texto("Diego possui extrema habilidade culinária, mas organizou", y++);
+    centralizar_texto("seu livro de receitas de maneira um tanto peculiar...", y++);
+    centralizar_texto("utilizando premissas e relações lógico-matemáticas para", y++);
+    centralizar_texto("estruturar cada ingrediente e etapa do preparo.", y++);
+    centralizar_texto(" ", y++);
+    centralizar_texto("E cabe a VOCÊ ajudá-lo nessa nova jornada.", y++);
 
     screenSetColor(GREEN, BLACK);
-    centralizar_texto("Pronto para comecar?", y + 2);
+    centralizar_texto("Pronto para começar?", y + 2);
     screenSetColor(WHITE, BLACK);
     centralizar_texto("Pressione ENTER", y + 3);
 
@@ -164,7 +166,7 @@ int menuSelecaoFase() {
 
         int y = 3;
         centralizar_texto("====================================================", y++);
-        centralizar_texto("               LIVRO DE RECEITAS                    ", y++);
+        centralizar_texto("                  LIVRO DE RECEITAS                 ", y++);
         centralizar_texto("====================================================", y++);
         y += 2;
 
@@ -193,12 +195,11 @@ int menuSelecaoFase() {
         screenSetColor(WHITE, BLACK);
 
         y += 2;
-        centralizar_texto("Digite o numero da receita:", y++);
+        centralizar_texto("Digite o número da receita:", y++);
         
         int largura = 80;
         int x_input = (largura - 10) / 2;
         screenGotoxy(x_input, y);
-        printf("__________");
         screenGotoxy(x_input, y);
 
         screenSetColor(LIGHTGRAY, BLACK);
@@ -214,7 +215,7 @@ int menuSelecaoFase() {
             break; 
         } else {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Opcao invalida! Tente novamente.", y + 2);
+            centralizar_texto("Opção inválida! Tente novamente.", y + 2);
             screenSetColor(WHITE, BLACK);
             getchar();
         }
@@ -304,7 +305,7 @@ void mostrarTelaAcerto(char *resposta, int xpGanho) {
     centralizar_texto("VAMOS ARRASANDO!", 15);
     
     char msg[100];
-    sprintf(msg, "O ingrediente era mesmo: %s", resposta);
+    sprintf(msg, "O ingrediente era: %s", resposta);
     screenSetColor(WHITE, BLACK);
     centralizar_texto(msg, 17);
 
@@ -321,10 +322,10 @@ void mostrarTelaErro(char *escolha, char *correta) {
     pintar_fundo(150, 45, BLACK);
     
     screenSetColor(RED, BLACK);
-    centralizar_texto("VIXY TA ERRADO...", 15);
+    centralizar_texto("VIXY, TÁ ERRADO...", 15);
     
     char msg[100];
-    sprintf(msg, "Voce escolheu: %s", escolha);
+    sprintf(msg, "Você escolheu: %s", escolha);
     screenSetColor(GRAY, BLACK);
     centralizar_texto(msg, 17);
 
@@ -339,7 +340,7 @@ void mostrarFimFase(char *nomeReceita) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
     screenSetColor(CYAN, BLACK);
-    centralizar_texto("RECEITA CONCLUIDA!", 15);
+    centralizar_texto("RECEITA CONCLUÍDA!", 15);
     centralizar_texto(nomeReceita, 17);
     screenSetColor(WHITE, BLACK);
     centralizar_texto("Pressione ENTER para voltar ao menu", 20);

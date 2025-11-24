@@ -16,11 +16,10 @@ int main() {
     Player player;
     Receita receita;
 
+    tela_inicial();
     keyboardInit();
     screenInit(1);
     timerInit(FRAME_RATE_MS);
-
-    tela_inicial();
     historia(&player);
 
    int jogando = 1;

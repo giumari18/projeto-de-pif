@@ -19,7 +19,7 @@ void keyboardInit()
     tcgetattr(0,&initialSettings);
     newSettings = initialSettings;
     newSettings.c_lflag &= ~ICANON;
-    newSettings.c_lflag &= ~ECHO;
+    newSettings.c_lflag &= ECHO;
     newSettings.c_lflag &= ~ISIG;
     newSettings.c_cc[VMIN] = 1;
     newSettings.c_cc[VTIME] = 0;
