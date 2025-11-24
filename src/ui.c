@@ -280,13 +280,14 @@ int menuSelecaoFase() {
 }
 
 int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
-    int selecionado = 0; // 0=A, 1=B, 2=C, 3=D
+    int selecionado = 0;
     int rodando = 1;
-    int desenhar = 1;
-
+    int desenhar = 1; 
 
     screenClear();
     pintar_fundo(150, 45, BLACK);
+
+    screenSetColor(WHITE, BLACK);
 
     char titulo[100];
     sprintf(titulo, "INGREDIENTE %d / %d", indice, total);
@@ -301,19 +302,22 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
     
     screenSetColor(WHITE, BLACK);
     for (int i = 0; i < 4; i++) {
-        if (strlen(ing->premissas[i]) > 0) {
+        if (ing->premissas[i][0] != '\0') {
             screenGotoxy(30, 9 + i); 
             printf("- %s", ing->premissas[i]);
+        } else {
+            screenGotoxy(30, 9 + i);
+            printf("-"); 
         }
     }
 
     screenSetColor(GREEN, BLACK);
-    centralizar_texto("--- QUAL E A ALTERNATIVA? ---", 15);
-
+    centralizar_texto("--- QUAL E O INGREDIENTE? ---", 15);
 
     screenSetColor(GRAY, BLACK);
     centralizar_texto("Use W/S para navegar e ENTER para confirmar", 30);
 
+    fflush(stdout); 
 
     while (rodando) {
         
@@ -332,7 +336,11 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
                     printf("   %c) %s   ", 'A' + i, ing->alternativas[i]);
                 }
             }
-            desenhar = 0;
+            screenSetColor(WHITE, BLACK); 
+            
+            fflush(stdout); 
+            
+            desenhar = 0; 
         }
 
         if (keyhit()) {
@@ -341,19 +349,19 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
             if (ch == 'w' || ch == 'W') {
                 selecionado--;
                 if (selecionado < 0) selecionado = 3;
-                desenhar = 1; 
+                desenhar = 1;
             }
             else if (ch == 's' || ch == 'S') {
                 selecionado++;
                 if (selecionado > 3) selecionado = 0;
-                desenhar = 1; 
+                desenhar = 1;
             }
-            else if (ch == 10 || ch == 13) {
+            else if (ch == 10 || ch == 13) { 
                 rodando = 0;
             }
         }
 
-        usleep(50000); // 50ms
+        usleep(50000); 
     }
 
     return selecionado;
