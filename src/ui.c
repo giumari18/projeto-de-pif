@@ -82,20 +82,43 @@ void obter_nome_jogador(Player *p) {
     screenSetColor(WHITE, BLACK);
     centralizar_texto("Qual seu nome de chef?", y_nome);
 
+    int largura_caixa = 40;
+    int x_caixa = (largura - largura_caixa) / 2;
+    
+    screenSetColor(LIGHTGRAY, BLACK);
+    
+    screenGotoxy(x_caixa, y_nome + 2);
+    printf("┌");
+    for (int i = 0; i < largura_caixa - 2; i++) printf("─");
+    printf("┐");
+    
+    screenGotoxy(x_caixa, y_nome + 3);
+    printf("│");
+    screenGotoxy(x_caixa + largura_caixa - 1, y_nome + 3);
+    printf("│");
+    
+    screenGotoxy(x_caixa, y_nome + 4);
+    printf("└");
+    for (int i = 0; i < largura_caixa - 2; i++) printf("─");
+    printf("┘");
+    
+    screenSetColor(LIGHTGRAY, BLACK);
+    centralizar_texto("Pressione ENTER para confirmar", y_nome + 6);
+    screenSetColor(WHITE, BLACK);
+
     do {
         if (tentativa) {
-            screenGotoxy(0, y_nome + 4);
+            screenGotoxy(0, y_nome + 8);
             printf("%*s", largura, " "); 
         }
 
-        int x_input = (largura - 30) / 2;
-
-        screenGotoxy(x_input, y_nome + 2);
-
-        screenGotoxy(x_input, y_nome + 2);
-        screenSetColor(LIGHTGRAY, BLACK);
+        screenGotoxy(x_caixa + 1, y_nome + 3);
+        printf("%*s", largura_caixa - 2, " ");
         
-        fgets(p->nome, 50, stdin);
+        screenGotoxy(x_caixa + 2, y_nome + 3);
+        screenSetColor(WHITE, BLACK);
+        
+        fgets(p->nome, largura_caixa - 4, stdin);
         
         screenSetColor(WHITE, BLACK);
 
@@ -103,7 +126,7 @@ void obter_nome_jogador(Player *p) {
 
         if (!nome_valido(p->nome)) {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Nome inválido. Tente novamente.", y_nome + 4);
+            centralizar_texto("Nome inválido. Tente novamente.", y_nome + 8);
             screenSetColor(WHITE, BLACK);
         }
 
@@ -159,6 +182,8 @@ int menuSelecaoFase() {
     char buffer_input[10];
     char linha[MAX_LINHA];
 
+    
+
     // Loop de mostrar na tela as opções de receitas
     while (1) {
         screenClear();
@@ -196,13 +221,41 @@ int menuSelecaoFase() {
 
         y += 2;
         centralizar_texto("Digite o número da receita:", y++);
+        y++; // Espaço extra para a caixinha
         
+        // Desenha a caixinha
         int largura = 80;
-        int x_input = (largura - 10) / 2;
-        screenGotoxy(x_input, y);
-        screenGotoxy(x_input, y);
-
+        int largura_caixa = 20;
+        int x_caixa = (largura - largura_caixa) / 2;
+        
         screenSetColor(LIGHTGRAY, BLACK);
+        
+        // Borda superior
+        screenGotoxy(x_caixa, y);
+        printf("┌");
+        for (int i = 0; i < largura_caixa - 2; i++) printf("─");
+        printf("┐");
+        
+        // Meio (onde digita)
+        screenGotoxy(x_caixa, y + 1);
+        printf("│");
+        screenGotoxy(x_caixa + largura_caixa - 1, y + 1);
+        printf("│");
+        
+        // Borda inferior
+        screenGotoxy(x_caixa, y + 2);
+        printf("└");
+        for (int i = 0; i < largura_caixa - 2; i++) printf("─");
+        printf("┘");
+        
+        // Mensagem de ENTER
+        screenSetColor(LIGHTGRAY, BLACK);
+        centralizar_texto("Pressione ENTER para confirmar", y + 4);
+        
+        // Posiciona cursor dentro da caixa
+        screenGotoxy(x_caixa + 2, y + 1);
+        screenSetColor(WHITE, BLACK);
+        
         fgets(buffer_input, 10, stdin);
         screenSetColor(WHITE, BLACK);
 
@@ -210,12 +263,12 @@ int menuSelecaoFase() {
 
         if (escolha > 0 && escolha <= total_receitas) {
             screenSetColor(GREEN, BLACK);
-            centralizar_texto("Carregando ingredientes...", y + 2);
+            centralizar_texto("Carregando ingredientes...", y + 6);
             getchar(); 
             break; 
         } else {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Opção inválida! Tente novamente.", y + 2);
+            centralizar_texto("Opção inválida! Tente novamente.", y + 6);
             screenSetColor(WHITE, BLACK);
             getchar();
         }
