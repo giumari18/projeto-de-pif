@@ -828,7 +828,7 @@ void jogoConcluido(Player *p) {
     
     // Mensagem final após a arte (linha 10 + 14 linhas + 1 espaço = linha 25)
     screenSetColor(WHITE, BLACK);
-    centralizar_texto("Pressione ENTER para sair do jogo.", 25);
+    centralizar_texto("Pressione ENTER para voltar ao menu", 25);
 
     fflush(stdout);
     getchar();
