@@ -536,12 +536,13 @@ void mostrarTelaErro(char *escolha, char *correta) {
     getchar(); 
 }
 
-void mostrarFimFase(char *nomeReceita) {
+void mostrarFimFase(char *nomePlayer, char *nomeReceita, int quantidadeAcertos, int totalQuestoes) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
     screenSetColor(CYAN, BLACK);
     centralizar_texto("FIM DE FASE!", 15);
-    centralizar_texto("Sua avaliação: ", 17);
+    centralizar_texto("Sua avaliação:", 17);
+    definirEstrelas(nomePlayer, nomeReceita, quantidadeAcertos, totalQuestoes);
     screenSetColor(WHITE, BLACK);
     centralizar_texto("Pressione ENTER para voltar ao menu", 20);
     getchar();
@@ -569,5 +570,5 @@ void jogarFase(Receita *r, Player *p) {
     }
 
     definirEstrelas(p, r->nome, qntAcertos, r->quantidadeIngredientes);
-    mostrarFimFase(r->nome);
+    mostrarFimFase(p->nome, r->nome, qntAcertos, r->quantidadeIngredientes);
 }
