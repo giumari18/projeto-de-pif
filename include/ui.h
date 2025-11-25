@@ -14,5 +14,6 @@ void mostrarTelaAcerto(char *resposta, int xpGanho);
 void mostrarTelaErro(char *escolha, char *correta);
 void mostrarFimFase(Player *p, char *nomeReceita, int quantidadeAcertos, int totalQuestoes);
 void jogarFase(Receita *r, Player *p);
+void jogoConcluido(Player *p);
 
 #endif

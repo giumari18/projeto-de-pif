@@ -37,6 +37,9 @@ int main() {
             if (carregarFase(idFase, &faseAtual)) {
                 jogarFase(&faseAtual, &player);
                 liberarReceita(&faseAtual);
+            if(player.xp >= 1750){
+        jogoConcluido(&player);
+    }
             }
         }
     }
