@@ -15,16 +15,13 @@
 
 char *toLower(char *c);
 
+static const int xpPorNivel[] = { 0, 300, 750, 1250, 1700};
+
 int xpParaProximoNivel(int nivel) {
-    int xpTotal = 0;
-    int custoAtual = 100;
     
-    for (int i = 0; i <= nivel; i++) {
-        xpTotal += custoAtual;
-        custoAtual += 50;
-    }
-    
-    return xpTotal;
+    if(nivel < 0) return 0;
+    if(nivel > 4) nivel = 4;
+    return xpPorNivel[nivel];
 }
 
 void atualizarXP(int xpGanho, Player *p){
@@ -70,7 +67,7 @@ void atualizarXP(int xpGanho, Player *p){
             fprintf(arquivoTemp, "%s\n%d\n", linha, xpAtualizado);
 
             p -> xp = xpAtualizado;
-
+            
         } else{
             fprintf(arquivoTemp, "%s\n%s", linha, linhaXP);
         }
@@ -85,15 +82,24 @@ void atualizarXP(int xpGanho, Player *p){
     rename(ARQUIVO_TEMPORARIO, AQRUIVO_PERFIL);
 }
 
-int _recursaoNivel(int xp, int custoAtual) {
+int _recursaoNivel(int xp, int nivelAtual) {
 
-    if (xp < custoAtual) {
-        return 1;
+    int nivelMaximo = 4;
+
+    if(nivelAtual >= nivelMaximo) {
+        return nivelMaximo;
     }
-    return 1 + _recursaoNivel(xp - custoAtual, custoAtual + 50);
+
+    if(xp >= xpPorNivel[nivelAtual +1]){
+
+        return _recursaoNivel(xp, nivelAtual +1);
+    }
+
+    return nivelAtual;
+    
 }
 
 
 int calcularNivel(int xp) {
-    return _recursaoNivel(xp, 100);
+    return _recursaoNivel(xp, 0);
 }
