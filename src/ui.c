@@ -224,18 +224,22 @@ void montar_string_estrelas(int qtd, char *buffer) {
 }
 
 void desenhar_barra_xp(int xpAtual, int nivel) {
-    float valorPorcentagem = 0;
-
+    float valorPorcentagem = 0.0;
+    float meta = 0.0;
+    
     switch(nivel){
-        case 1:
-            valorPorcentagem = xpAtual/350;
-        case 2:
-            valorPorcentagem = xpAtual/750;
-        case 3:
-            valorPorcentagem = xpAtual/1250;
-        case 4:
-            valorPorcentagem = xpAtual/1700;
+        case 1: meta = 300.0; break;
+        case 2: meta = 750.0; break;
+        case 3: meta = 1250.0; break;
+        case 4: meta = 1700.0; break;
+        default: meta = 300.0;
     }
+
+    if (meta > 0) {
+        valorPorcentagem = (float)xpAtual / meta;
+    }
+    
+    if (valorPorcentagem > 1.0) valorPorcentagem = 1.0;
 
     if(valorPorcentagem == 0){
         screenGotoxy(2, 1);
