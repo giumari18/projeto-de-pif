@@ -525,7 +525,7 @@ const char *arte[] = {
 "         █████████"                                      
     };                  
 
-    int x_arte = 70;
+    int x_arte = 80;
     int y_arte = 4;
     
     int linhas_arte = sizeof(arte) / sizeof(arte[0]);
