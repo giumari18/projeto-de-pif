@@ -12,7 +12,7 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char 
 
 void mostrarTelaAcerto(char *resposta, int xpGanho);
 void mostrarTelaErro(char *escolha, char *correta);
-void mostrarFimFase(char *nomePlayer, char *nomeReceita, int quantidadeAcertos, int totalQuestoes);
+void mostrarFimFase(Player *p, char *nomeReceita, int quantidadeAcertos, int totalQuestoes);
 void jogarFase(Receita *r, Player *p);
 
 #endif
