@@ -2,7 +2,7 @@
 #define RECEITAS_H
 
 typedef struct {
-    char premissas[4][100];
+    char premissas[5][100];
     char alternativas[4][100];
     char alternativaCerta[100];
 } Ingrediente;

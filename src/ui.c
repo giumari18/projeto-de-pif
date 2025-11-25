@@ -430,7 +430,7 @@ const char *arte[] = {
     
     // Premissas mais em cima (começando na linha 5)
     screenSetColor(WHITE, BLACK);
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         if (ing->premissas[i][0] != '\0') {
             screenGotoxy(2, 4 + i); 
             printf("- %s", ing->premissas[i]);
