@@ -11,6 +11,7 @@ typedef struct {
     char nome[50];
     Ingrediente *ingredientes;
     int quantidadeIngredientes;
+    int nivel;
 } Receita;
 
 int listarNomesDasFases();

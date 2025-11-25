@@ -296,39 +296,39 @@ int menuSelecaoFase(Player *p) {
 
         FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
         
-        if (!arquivo) {
-            screenSetColor(RED, BLACK);
-            centralizar_texto("Erro: Arquivo de receitas não encontrado!", y);
-            getchar();
-            return -1;
-        }
+        
 
         total_receitas = 0;
         
         while (fgets(linha, sizeof(linha), arquivo)) {
-    linha[strcspn(linha, "\n")] = 0;
-    if (strlen(linha) == 0) continue;
 
-    char *nome_receita = strtok(linha, ",");
-    
-    if (nome_receita) {
+            linha[strcspn(linha, "\n")] = 0;
+            if (strlen(linha) == 0) continue;
 
-        int qtd_estrelas = buscar_estrelas(p->nome, nome_receita);
+            char *nome_receita = strtok(linha, ",");
+            
 
-        char desenho_estrelas[30];
-        montar_string_estrelas(qtd_estrelas, desenho_estrelas);
+            char *nivel_txt = strtok(NULL, ",");
+            int nivel_receita = nivel_txt ? atoi(nivel_txt) : 1;
+            
+            if (nome_receita && nivel_receita <= calcularNivel(p->xp)) {
 
-        char item_menu[150];
-        
-        if (qtd_estrelas > 0) screenSetColor(YELLOW, BLACK);
-        else screenSetColor(WHITE, BLACK);
+                int qtd_estrelas = buscar_estrelas(p->nome, nome_receita);
 
-        sprintf(item_menu, "%d. %-60s  %s", total_receitas + 1, nome_receita, desenho_estrelas);
-        
-        screenGotoxy(2, y);  
-        printf("%s", item_menu);
-        y++;
-        total_receitas++;
+                char desenho_estrelas[30];
+                montar_string_estrelas(qtd_estrelas, desenho_estrelas);
+
+                char item_menu[150];
+                
+                if (qtd_estrelas > 0) screenSetColor(YELLOW, BLACK);
+                else screenSetColor(WHITE, BLACK);
+
+                sprintf(item_menu, "%d. %-60s  %s", total_receitas + 1, nome_receita, desenho_estrelas);
+                
+                screenGotoxy(2, y);  
+                printf("%s", item_menu);
+                y++;
+                total_receitas++;
     }
 }
 

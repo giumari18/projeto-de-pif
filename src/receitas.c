@@ -71,7 +71,13 @@ int carregarFase(int idFase, Receita *r) {
             token = strtok(NULL, ",");
             if(!token) break;
             trim(token);
-            int qtd = atoi(token);
+            r->nivel = atoi(token); // <-- Agora pega o nível
+
+            token = strtok(NULL, ",");
+            if(!token) break;
+            trim(token);
+            int qtd = atoi(token); // <-- Depois, pega quantidade de ingredientes
+
             
             r->quantidadeIngredientes = qtd;
             r->ingredientes = (Ingrediente *) malloc(qtd * sizeof(Ingrediente));
