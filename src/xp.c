@@ -7,6 +7,7 @@
 #include "keyboard.h"
 #include "timer.h"
 
+static const int xpPorNivel[] = { 0, 300, 750, 1250, 1700};
 
 #define AQRUIVO_PERFIL "stats.txt"
 #define ARQUIVO_TEMPORARIO "stats_temp.txt"
@@ -14,8 +15,6 @@
 
 
 char *toLower(char *c);
-
-static const int xpPorNivel[] = { 0, 300, 750, 1250, 1700};
 
 int xpParaProximoNivel(int nivel) {
     
