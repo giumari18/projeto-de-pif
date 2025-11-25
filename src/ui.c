@@ -222,18 +222,14 @@ void desenhar_barra_xp(Player *p) {
     int xp_necessario = xp_proximo_nivel - xp_nivel_atual;
     
     // Tamanho da barra
-    int largura_barra = 30;
+    int largura_barra = 15;
     int progresso = (xp_progresso * largura_barra) / xp_necessario;
     if (progresso > largura_barra) progresso = largura_barra;
     
     // Posição no canto superior esquerdo
     screenGotoxy(2, 1);
-    screenSetColor(CYAN, BLACK);
-    printf("Nível %d", nivel);
-    
-    screenGotoxy(2, 2);
-    screenSetColor(LIGHTGRAY, BLACK);
-    printf("[");
+    screenSetColor(WHITE, BLACK);
+    printf("XP: [");
     
     // Desenha a barra preenchida
     screenSetColor(YELLOW, BLACK);
@@ -247,13 +243,8 @@ void desenhar_barra_xp(Player *p) {
         printf("░");
     }
     
-    screenSetColor(LIGHTGRAY, BLACK);
-    printf("]");
-    
-    // Mostra XP numérico
-    screenGotoxy(2, 3);
     screenSetColor(WHITE, BLACK);
-    printf("XP: %d/%d", xp_progresso, xp_necessario);
+    printf("]");
 }
 
 int menuSelecaoFase(Player *p) {
