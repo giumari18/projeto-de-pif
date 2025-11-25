@@ -241,34 +241,31 @@ void desenhar_barra_xp(int xpAtual, int nivel) {
     
     if (valorPorcentagem > 1.0) valorPorcentagem = 1.0;
 
-    screenGotoxy(2, 1);
-    screenSetColor(CYAN, BLACK);
-    printf("Progresso:");
-
+  
     if(valorPorcentagem == 0){
-        screenGotoxy(5, 3);
+        screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("░░░░░░░░░░░░░░░░░░░░");
+        printf("Progresso do nivel: ░░░░░░░░░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0 && valorPorcentagem <= 0.2){
-        screenGotoxy(5, 3);
+        screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("████░░░░░░░░░░░░░░░░");
+        printf("Progresso do nivel: ████░░░░░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0.2 && valorPorcentagem <= 0.4){
-        screenGotoxy(5, 3);
+        screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("████████░░░░░░░░░░░░");
+        printf("Progresso do nivel: ████████░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0.4 && valorPorcentagem <= 0.6){
-        screenGotoxy(5, 3);
+        screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("████████████░░░░░░░░");
+        printf("Progresso do nivel: ████████████░░░░░░░░");
     } else if(valorPorcentagem > 0.6 && valorPorcentagem <= 0.8){
-        screenGotoxy(5, 3);
+        screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("████████████████░░░░");
+        printf("Progresso do nivel: ████████████████░░░░");
     } else{
-        screenGotoxy(5, 3);
+        screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("███████████████████░");
+        printf("Progresso do nivel: ███████████████████░");
     }
 }
 
