@@ -755,62 +755,67 @@ void jogoConcluido(Player *p) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
 
+    // Arte "PARABÉNS!" no topo
     screenSetColor(CYAN, BLACK);
     const char *arte_titulo[] = {
-"█████▄ ▄████▄ █████▄  ▄████▄ █████▄ ██████ ███  ██ ▄█████  ██", 
-"██▄▄█▀ ██▄▄██ ██▄▄██▄ ██▄▄██ ██▄▄██ ██▄▄   ██ ▀▄██ ▀▀▀▄▄▄  ██", 
-"██     ██  ██ ██   ██ ██  ██ ██▄▄█▀ ██▄▄▄▄ ██   ██ █████▀  ▄▄",
-" " 
+        "       █████▄ ▄████▄ █████▄  ▄████▄ █████▄ ██████ ███  ██ ▄█████  ██", 
+        "       ██▄▄█▀ ██▄▄██ ██▄▄██▄ ██▄▄██ ██▄▄██ ██▄▄   ██ ▀▄██ ▀▀▀▄▄▄  ██", 
+        "       ██     ██  ██ ██   ██ ██  ██ ██▄▄█▀ ██▄▄▄▄ ██   ██ █████▀  ▄▄"
     };
 
-    int y_titulo = 2;
+    int y_titulo = 1;
     int linhas_titulo = sizeof(arte_titulo) / sizeof(arte_titulo[0]);
-
+    
+    int max_len_titulo = 0;
     for (int i = 0; i < linhas_titulo; i++) {
-        centralizar_texto(arte_titulo[i], y_titulo + i);
+        int len = strlen(arte_titulo[i]);
+        if (len > max_len_titulo) max_len_titulo = len;
+    }
+    
+    int x_titulo = (80 - max_len_titulo) / 2;
+    for (int i = 0; i < linhas_titulo; i++) {
+        screenGotoxy(x_titulo, y_titulo + i);
+        printf("%s", arte_titulo[i]);
     }
 
-    // O conteúdo de texto agora deve começar depois da arte, mantendo um espaçamento
-    int y_inicio_texto = y_titulo + linhas_titulo + 1; // 2 + 5 + 1 = Linha 8
-
+    // Mensagens logo após o título
     screenSetColor(YELLOW, BLACK);
-    centralizar_texto("Você ajudou o Chef Diego com precisão, e se tornou um Master Chef Executivo de Cozinha.", y_inicio_texto + 2);
-
-    screenSetColor(YELLOW, BLACK);
-    centralizar_texto("Continue praticando para aprimorar suas habilidades culinárias!", y_inicio_texto + 4); // Linha 12
-
+    centralizar_texto("Você ajudou o Chef Diego com precisão,", 5);
+    centralizar_texto("e se tornou um Master Chef Executivo de Cozinha.", 6);
+    
+    // Arte do troféu
     screenSetColor(WHITE, BLACK);
     const char *arte[] = {
-"                        ███    █████",             
-"                     ██     ██      ████",          
-"                    █                   ██",        
-"               ████                       █",        
-"             ██    █                 █     █",       
-"            ██    █                 █      █",       
-"           ██                █     █      █",        
-"           ███        █       █   █████ ██",          
-"           ██████      ██    █  ███       █",          
-"            ████        ████            █",         
-"              █████████       ██████████",         
-"                  ██████   █████████████",         
-"                     ██████████████",            
-"                      ██████████"
+        "                        ███    █████",             
+        "                     ██     ██      ████",          
+        "                    █                   ██",        
+        "               ████                       █",        
+        "             ██    █                 █     █",       
+        "            ██    █                 █      █",       
+        "           ██                █     █      █",        
+        "           ███        █       █   █████ ██",          
+        "           ██████      ██    █  ███       █",          
+        "            ████        ████            █",         
+        "              █████████       ██████████",         
+        "                  ██████   █████████████",         
+        "                     ██████████████",            
+        "                      ██████████"
     };                  
 
     int linhas_arte = sizeof(arte) / sizeof(arte[0]);
-    int y_arte = 9;
+    int y_arte = 8; // Começa após as mensagens
     
-    // Calcular a largura real (sem espaços no início)
-    int x_base = 24; // Posição fixa centralizada
+    int x_base = 14; // Centralizado
     
     for (int i = 0; i < linhas_arte; i++) {
         screenGotoxy(x_base, y_arte + i);
         printf("%s", arte[i]);
     }
     
-
+    // Mensagem final após a arte (linha 10 + 14 linhas + 1 espaço = linha 25)
     screenSetColor(WHITE, BLACK);
-    centralizar_texto("Pressione ENTER para sair do jogo.", y_inicio_texto + 6); // Linha 14
+    centralizar_texto("Pressione ENTER para sair do jogo.", 25);
 
+    fflush(stdout);
     getchar();
 }
