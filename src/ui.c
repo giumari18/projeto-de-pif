@@ -245,7 +245,7 @@ void desenhar_barra_xp(int xpAtual, int nivel) {
     if(valorPorcentagem == 0){
         screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("Progresso do nivel: ░░░░░░░░░░░░░░░░░░░░");
+        printf("Progresso do Nível: ░░░░░░░░░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0 && valorPorcentagem <= 0.2){
         screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
