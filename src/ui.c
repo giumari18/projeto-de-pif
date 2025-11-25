@@ -214,6 +214,8 @@ void montar_string_estrelas(int qtd, char *buffer) {
     }
 }
 
+/*
+
 void desenhar_barra_xp(Player *p) {
     int nivel = calcularNivel(p->xp);
     int xp_nivel_atual = xpParaProximoNivel(nivel - 1);
@@ -243,6 +245,8 @@ void desenhar_barra_xp(Player *p) {
     screenSetColor(WHITE, BLACK);
     printf("]");
 }
+
+*/
 
 const char* obter_titulo_chef(int nivel) {
     if (nivel >= 1 && nivel <= 5) return "Aprendiz";
@@ -281,7 +285,7 @@ int menuSelecaoFase(Player *p) {
         screenClear();
         pintar_fundo(150, 45, BLACK);
         pintar_fundo(150, 45, BLACK);
-        desenhar_barra_xp(p);
+       // desenhar_barra_xp(p);
         desenhar_titulo_chef(p);
 
         int y = 5;
