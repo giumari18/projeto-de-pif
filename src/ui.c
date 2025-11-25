@@ -243,30 +243,30 @@ void desenhar_barra_xp(int xpAtual, int nivel) {
 
     screenGotoxy(2, 1);
     screenSetColor(CYAN, BLACK);
-    printf("Progresso do Nivel Atual:");
+    printf("Progresso:");
 
     if(valorPorcentagem == 0){
-        screenGotoxy(2, 3);
+        screenGotoxy(5, 3);
         screenSetColor(CYAN, BLACK);
         printf("░░░░░░░░░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0 && valorPorcentagem <= 0.2){
-        screenGotoxy(2, 3);
+        screenGotoxy(5, 3);
         screenSetColor(CYAN, BLACK);
         printf("████░░░░░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0.2 && valorPorcentagem <= 0.4){
-        screenGotoxy(2, 3);
+        screenGotoxy(5, 3);
         screenSetColor(CYAN, BLACK);
         printf("████████░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0.4 && valorPorcentagem <= 0.6){
-        screenGotoxy(2, 3);
+        screenGotoxy(5, 3);
         screenSetColor(CYAN, BLACK);
         printf("████████████░░░░░░░░");
     } else if(valorPorcentagem > 0.6 && valorPorcentagem <= 0.8){
-        screenGotoxy(2, 3);
+        screenGotoxy(5, 3);
         screenSetColor(CYAN, BLACK);
         printf("████████████████░░░░");
     } else{
-        screenGotoxy(2, 3);
+        screenGotoxy(5, 3);
         screenSetColor(CYAN, BLACK);
         printf("███████████████████░");
     }
