@@ -62,6 +62,7 @@ int calcularNivel(int xp) {
 
 void atualizarXP(int xpGanho, Player *p){
 
+    p->xp += xpGanho;
 
     FILE *arquivo = fopen(AQRUIVO_PERFIL, "r");
     FILE *arquivoTemp = fopen(ARQUIVO_TEMPORARIO, "w");
