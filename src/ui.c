@@ -223,39 +223,46 @@ void montar_string_estrelas(int qtd, char *buffer) {
     }
 }
 
-/*
+void desenhar_barra_xp(int xpAtual, int nivel) {
+    float valorPorcentagem = 0;
 
-void desenhar_barra_xp(Player *p) {
-    int nivel = calcularNivel(p->xp);
-    int xp_nivel_atual = xpParaProximoNivel(nivel - 1);
-    int xp_proximo_nivel = xpParaProximoNivel(nivel);
-    int xp_progresso = p->xp - xp_nivel_atual;
-    int xp_necessario = xp_proximo_nivel - xp_nivel_atual;
-    
+    switch(nivel){
+        case 1:
+            valorPorcentagem = xpAtual/350;
+        case 2:
+            valorPorcentagem = xpAtual/750;
+        case 3:
+            valorPorcentagem = xpAtual/1250;
+        case 4:
+            valorPorcentagem = xpAtual/1700;
+    }
 
-    int largura_barra = 15;
-    int progresso = (xp_progresso * largura_barra) / xp_necessario;
-    if (progresso > largura_barra) progresso = largura_barra;
-    
-    screenGotoxy(2, 1);
-    screenSetColor(WHITE, BLACK);
-    printf("XP: [");
-  
-    screenSetColor(YELLOW, BLACK);
-    for (int i = 0; i < progresso; i++) {
-        printf("█");
+    if(valorPorcentagem == 0){
+        screenGotoxy(2, 1);
+        screenSetColor(CYAN, BLACK);
+        printf("░░░░░░░░░░░░░░░░░░░░");
+    } else if(valorPorcentagem > 0 && valorPorcentagem <= 0.2){
+        screenGotoxy(2, 1);
+        screenSetColor(CYAN, BLACK);
+        printf("████░░░░░░░░░░░░░░░░");
+    } else if(valorPorcentagem > 0.2 && valorPorcentagem <= 0.4){
+        screenGotoxy(2, 1);
+        screenSetColor(CYAN, BLACK);
+        printf("████████░░░░░░░░░░░░");
+    } else if(valorPorcentagem > 0.4 && valorPorcentagem <= 0.6){
+        screenGotoxy(2, 1);
+        screenSetColor(CYAN, BLACK);
+        printf("████████████░░░░░░░░");
+    } else if(valorPorcentagem > 0.6 && valorPorcentagem <= 0.8){
+        screenGotoxy(2, 1);
+        screenSetColor(CYAN, BLACK);
+        printf("████████████████░░░░");
+    } else{
+        screenGotoxy(2, 1);
+        screenSetColor(CYAN, BLACK);
+        printf("███████████████████░");
     }
-    
-    screenSetColor(GRAY, BLACK);
-    for (int i = progresso; i < largura_barra; i++) {
-        printf("░");
-    }
-    
-    screenSetColor(WHITE, BLACK);
-    printf("]");
 }
-
-*/
 
 const char* obter_titulo_chef(int nivel) {
     if (nivel == 1) return "Commis Chef";
@@ -290,7 +297,7 @@ int menuSelecaoFase(Player *p) {
         screenClear();
         pintar_fundo(150, 45, BLACK);
         pintar_fundo(150, 45, BLACK);
-       // desenhar_barra_xp(p);
+        desenhar_barra_xp(p->xp, calcularNivel(p->xp));
         desenhar_titulo_chef(p);
 
         int y = 5;
