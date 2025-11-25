@@ -750,3 +750,67 @@ void jogarFase(Receita *r, Player *p) {
     definirEstrelas(p, r->nome, qntAcertos, r->quantidadeIngredientes);
     mostrarFimFase(p, r->nome, qntAcertos, r->quantidadeIngredientes);
 }
+
+void jogoConcluido(Player *p) {
+    screenClear();
+    pintar_fundo(150, 45, BLACK);
+
+    screenSetColor(CYAN, BLACK);
+    const char *arte_titulo[] = {
+"█████▄ ▄████▄ █████▄  ▄████▄ █████▄ ██████ ███  ██ ▄█████  ██", 
+"██▄▄█▀ ██▄▄██ ██▄▄██▄ ██▄▄██ ██▄▄██ ██▄▄   ██ ▀▄██ ▀▀▀▄▄▄  ██", 
+"██     ██  ██ ██   ██ ██  ██ ██▄▄█▀ ██▄▄▄▄ ██   ██ █████▀  ▄▄",
+" " 
+    };
+
+    int y_arte = 2;
+    int linhas_arte = sizeof(arte_titulo) / sizeof(arte_titulo[0]);
+
+    for (int i = 0; i < linhas_arte; i++) {
+        centralizar_texto(arte_titulo[i], y_arte + i);
+    }
+
+    // O conteúdo de texto agora deve começar depois da arte, mantendo um espaçamento
+    int y_inicio_texto = y_arte + linhas_arte + 1; // 2 + 5 + 1 = Linha 8
+
+    char msg[100];
+    sprintf(msg, "Incrível, %s! Você ajudou o Chef Diego com precisão, e se tornou um Master Chef Executivo de Cozinha.", p->nome);
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto(msg, y_inicio_texto + 2); // Linha 10
+
+    screenSetColor(YELLOW, BLACK);
+    centralizar_texto("Continue praticando para aprimorar suas habilidades culinárias!", y_inicio_texto + 4); // Linha 12
+
+    screenSetColor(WHITE, BLACK);
+    const char *arte[] = {
+"                        ███    █████",             
+"                     ██     ██      ████",          
+"                    █                   ██",        
+"               ████                       █",        
+"             ██    █                 █     █",       
+"            ██    █                 █      █",       
+"           ██                █     █      █",        
+"           ███        █       █   █████ ██",          
+"           ██████      ██    █  ███       █",          
+"            ████        ████            █",         
+"              █████████       ██████████",         
+"                  ██████   █████████████",         
+"                     ██████████████",            
+"                      ██████████"
+    };                  
+
+    int linhas_arte = sizeof(arte) / sizeof(arte[0]);
+    int y_arte = 9;
+    
+    int x_base = 24;
+    
+    for (int i = 0; i < linhas_arte; i++) {
+        screenGotoxy(x_base, y_arte + i);
+        printf("%s", arte[i]);
+    }
+
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto("Pressione ENTER para sair do jogo.", y_inicio_texto + 6); // Linha 14
+
+    getchar();
+}
