@@ -403,24 +403,24 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char 
     printf("%s - INGREDIENTE %d / %d", nomeReceita, indice, total);
 
 screenSetColor(WHITE, BLACK);
-const char *arte[] = {
-"           █████",
-"      ████      ████",
-"     █               ██",
-"    █                █",
-"     ██            ██",
-"      ███████████████",
-"      █ █   █     █ █",
-"       ███          █",
-"        ███       ██",
-"        █  ██ █ █  ██",
-"       ██ ████████  ███████",
-"        ███████████    ███",
-"         █████████",
-};
-    
-    int x_arte = 48;
-    int y_arte = 5;
+const char *arte[] = {                             
+"           █████",              
+"       ████     ████",          
+"     █               █",       
+"     █               █",        
+"      ██           ██",         
+"       █████████████",          
+"      █ █   █    █ █",          
+"       ██          █",          
+"         ██      ██",           
+"        █  ██   █ █",           
+"       █  ████████ ███████",    
+"        ███████████   ███",     
+"         █████████"                                      
+    };                  
+
+    int x_arte = 50;
+    int y_arte = 4;
     
     int linhas_arte = sizeof(arte) / sizeof(arte[0]);
     for (int i = 0; i < linhas_arte; i++) {
