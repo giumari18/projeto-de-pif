@@ -221,23 +221,20 @@ void desenhar_barra_xp(Player *p) {
     int xp_progresso = p->xp - xp_nivel_atual;
     int xp_necessario = xp_proximo_nivel - xp_nivel_atual;
     
-    // Tamanho da barra
+
     int largura_barra = 15;
     int progresso = (xp_progresso * largura_barra) / xp_necessario;
     if (progresso > largura_barra) progresso = largura_barra;
     
-    // Posição no canto superior esquerdo
     screenGotoxy(2, 1);
     screenSetColor(WHITE, BLACK);
     printf("XP: [");
-    
-    // Desenha a barra preenchida
+  
     screenSetColor(YELLOW, BLACK);
     for (int i = 0; i < progresso; i++) {
         printf("█");
     }
     
-    // Desenha a parte vazia
     screenSetColor(GRAY, BLACK);
     for (int i = progresso; i < largura_barra; i++) {
         printf("░");
@@ -289,7 +286,6 @@ int menuSelecaoFase(Player *p) {
 
         int y = 5;
 
-        // Adicione o título centralizado aqui
     screenSetColor(WHITE, BLACK);
     centralizar_texto("                LIVRO DE RECEITAS DO DIEGO             ", y++);
     y++;
@@ -300,7 +296,6 @@ int menuSelecaoFase(Player *p) {
 
         FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
         
-        // Se der erro ao abrir receitas
         if (!arquivo) {
             screenSetColor(RED, BLACK);
             centralizar_texto("Erro: Arquivo de receitas não encontrado!", y);
@@ -325,14 +320,12 @@ int menuSelecaoFase(Player *p) {
 
         char item_menu[150];
         
-        // Cor: Amarelo se tiver estrelas, Branco se nunca jogou
         if (qtd_estrelas > 0) screenSetColor(YELLOW, BLACK);
         else screenSetColor(WHITE, BLACK);
 
         sprintf(item_menu, "%d. %-60s  %s", total_receitas + 1, nome_receita, desenho_estrelas);
         
-        // Em vez de centralizar_texto, use screenGotoxy com posição fixa
-        screenGotoxy(2, y);  // 5 caracteres da margem esquerda
+        screenGotoxy(2, y);  
         printf("%s", item_menu);
         y++;
         total_receitas++;
@@ -345,8 +338,7 @@ int menuSelecaoFase(Player *p) {
         y += 2;
         centralizar_texto("Digite o número da receita:", y++);
         y++; 
-        
-        // Desenha a caixinha
+       
         int largura = 80;
         int largura_caixa = 20;
         int x_caixa = (largura - largura_caixa) / 2;
@@ -522,7 +514,7 @@ void mostrarTelaAcerto(char *resposta, int xpGanho) {
     centralizar_texto(msg, 19);
 
     screenSetColor(WHITE, BLACK);
-    getchar(); // Espera um Enter 
+    getchar(); 
 }
 
 void mostrarTelaErro(char *escolha, char *correta) {
@@ -541,7 +533,7 @@ void mostrarTelaErro(char *escolha, char *correta) {
     screenSetColor(WHITE, BLACK);
     centralizar_texto(msg, 19);
 
-    getchar(); // Espera um enter
+    getchar(); 
 }
 
 void mostrarFimFase(char *nomeReceita) {
@@ -563,7 +555,6 @@ void jogarFase(Receita *r, Player *p) {
         
         Ingrediente *ingAtual = &r->ingredientes[i];
 
-        // Passa r->nome como parâmetro adicional
         int indiceEscolhido = rodarQuestaoIngrediente(ingAtual, i + 1, r->quantidadeIngredientes, r->nome);
 
         char *textoEscolhido = ingAtual->alternativas[indiceEscolhido];
