@@ -40,22 +40,19 @@ void definirEstrelas(Player *p, char *nomeFase, int quantidadeAcertos, int total
 
 
 void mostrarEstrelas(Player *p, int estrelas) {
-
-
     if (estrelas == 0) {
-        centralizar_texto("☆ ☆ ☆ ☆ ☆", 19);
+        printf("☆ ☆ ☆ ☆ ☆");
     } else if (estrelas == 1) {
-        centralizar_texto("★ ☆ ☆ ☆ ☆", 19);
+        printf("★ ☆ ☆ ☆ ☆");
     } else if (estrelas == 2) {
-        centralizar_texto("★ ★ ☆ ☆ ☆", 19);
+        printf("★ ★ ☆ ☆ ☆");
     } else if (estrelas == 3) {
-        centralizar_texto("★ ★ ★ ☆ ☆", 19);
+        printf("★ ★ ★ ☆ ☆");
     } else if (estrelas == 4) {
-        centralizar_texto("★ ★ ★ ★ ☆", 19);
-    } else if( estrelas == 5) {
-        centralizar_texto("★ ★ ★ ★ ★", 19);
-    
-}
+        printf("★ ★ ★ ★ ☆");
+    } else if (estrelas == 5) {
+        printf("★ ★ ★ ★ ★");
+    }
 }
 
 

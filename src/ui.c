@@ -549,12 +549,78 @@ void mostrarTelaErro(char *escolha, char *correta) {
 void mostrarFimFase(Player *p, char *nomeReceita, int quantidadeAcertos, int totalQuestoes) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
+    
+    // Arte "FIM DE FASE!" no topo
     screenSetColor(CYAN, BLACK);
-    centralizar_texto("FIM DE FASE!", 15);
-    centralizar_texto("Sua avaliação: ", 17);
-    definirEstrelas(p, nomeReceita, quantidadeAcertos, totalQuestoes);
+    const char *arte_titulo[] = {
+        "        ██████ ██ ██▄  ▄██   ████▄  ██████   ██████ ▄████▄ ▄█████ ██████  ██",
+        "        ██▄▄   ██ ██ ▀▀ ██   ██  ██ ██▄▄     ██▄▄   ██▄▄██ ▀▀▀▄▄▄ ██▄▄    ██",
+        "        ██     ██ ██    ██   ████▀  ██▄▄▄▄   ██     ██  ██ █████▀ ██▄▄▄▄  ▄▄"
+    };
+    
+    int linhas_titulo = sizeof(arte_titulo) / sizeof(arte_titulo[0]);
+    int y_titulo = 2;
+    
+    int max_len_titulo = 0;
+    for (int i = 0; i < linhas_titulo; i++) {
+        int len = strlen(arte_titulo[i]);
+        if (len > max_len_titulo) max_len_titulo = len;
+    }
+    
+    int x_titulo = (80 - max_len_titulo) / 2;
+    for (int i = 0; i < linhas_titulo; i++) {
+        screenGotoxy(x_titulo, y_titulo + i);
+        printf("%s", arte_titulo[i]);
+    }
+    
+// Sua avaliação
+screenSetColor(WHITE, BLACK);
+centralizar_texto("Sua avaliação:", 8);
+
+// Posicionar cursor para as estrelas na linha 10, DE FATO centralizado
+screenGotoxy(34, 10); // <--- MUDANÇA AQUI
+definirEstrelas(p, nomeReceita, quantidadeAcertos, totalQuestoes);
+    
+    // Arte ASCII embaixo das estrelas
     screenSetColor(WHITE, BLACK);
-    centralizar_texto("Pressione ENTER para voltar ao menu", 20);
+    const char *arte[] = {                             
+        "            █████",              
+        "        ████     ████",          
+        "      █               █",       
+        "      █               █",        
+        "       ██           ██",         
+        "        █████████████",          
+        "       █ █   █    █ █",          
+        "        ██          █",          
+        "          ██      ██",        
+        "          ██████████",          
+        "        █     █  █   █",        
+        "        █  █         █",         
+        "          ██████████",          
+        "          ████  ████",                                                                              
+    };                  
+
+    int linhas_arte = sizeof(arte) / sizeof(arte[0]);
+    int y_arte = 12; // Mais espaço após as estrelas
+    
+    int max_len = 0;
+    for (int i = 0; i < linhas_arte; i++) {
+        int len = strlen(arte[i]);
+        if (len > max_len) max_len = len;
+    }
+    
+    int x_base = (80 - max_len) / 2;
+    
+    for (int i = 0; i < linhas_arte; i++) {
+        screenGotoxy(x_base, y_arte + i);
+        printf("%s", arte[i]);
+    }
+    
+    // Novo código com espaçamento maior
+int y_final = y_arte + linhas_arte + 8; // Aumentei o espaço de 2 para 8
+screenSetColor(WHITE, BLACK);
+centralizar_texto("Pressione ENTER para voltar ao menu", y_final);
+    
     getchar();
 }
 
