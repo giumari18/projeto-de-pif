@@ -553,13 +553,13 @@ void mostrarFimFase(Player *p, char *nomeReceita, int quantidadeAcertos, int tot
     // Arte "FIM DE FASE!" no topo
     screenSetColor(CYAN, BLACK);
     const char *arte_titulo[] = {
-        "        ██████ ██ ██▄  ▄██   ████▄  ██████   ██████ ▄████▄ ▄█████ ██████  ██",
-        "        ██▄▄   ██ ██ ▀▀ ██   ██  ██ ██▄▄     ██▄▄   ██▄▄██ ▀▀▀▄▄▄ ██▄▄    ██",
-        "        ██     ██ ██    ██   ████▀  ██▄▄▄▄   ██     ██  ██ █████▀ ██▄▄▄▄  ▄▄"
+        "      ██████ ██ ██▄  ▄██   ████▄  ██████   ██████ ▄████▄ ▄█████ ██████  ██",
+        "      ██▄▄   ██ ██ ▀▀ ██   ██  ██ ██▄▄     ██▄▄   ██▄▄██ ▀▀▀▄▄▄ ██▄▄    ██",
+        "      ██     ██ ██    ██   ████▀  ██▄▄▄▄   ██     ██  ██ █████▀ ██▄▄▄▄  ▄▄"
     };
     
     int linhas_titulo = sizeof(arte_titulo) / sizeof(arte_titulo[0]);
-    int y_titulo = 2;
+    int y_titulo = 1;
     
     int max_len_titulo = 0;
     for (int i = 0; i < linhas_titulo; i++) {
@@ -573,13 +573,13 @@ void mostrarFimFase(Player *p, char *nomeReceita, int quantidadeAcertos, int tot
         printf("%s", arte_titulo[i]);
     }
     
-// Sua avaliação
-screenSetColor(WHITE, BLACK);
-centralizar_texto("Sua avaliação:", 8);
-
-// Posicionar cursor para as estrelas na linha 10, DE FATO centralizado
-screenGotoxy(34, 10); // <--- MUDANÇA AQUI
-definirEstrelas(p, nomeReceita, quantidadeAcertos, totalQuestoes);
+    // Sua avaliação
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto("Sua avaliação:", 5);
+    
+    // Estrelas
+    screenGotoxy(34, 7);
+    definirEstrelas(p, nomeReceita, quantidadeAcertos, totalQuestoes);
     
     // Arte ASCII embaixo das estrelas
     screenSetColor(WHITE, BLACK);
@@ -601,26 +601,22 @@ definirEstrelas(p, nomeReceita, quantidadeAcertos, totalQuestoes);
     };                  
 
     int linhas_arte = sizeof(arte) / sizeof(arte[0]);
-    int y_arte = 12; // Mais espaço após as estrelas
+    int y_arte = 9;
     
-    int max_len = 0;
-    for (int i = 0; i < linhas_arte; i++) {
-        int len = strlen(arte[i]);
-        if (len > max_len) max_len = len;
-    }
-    
-    int x_base = (80 - max_len) / 2;
+    // Calcular a largura real (sem espaços no início)
+    int x_base = 24; // Posição fixa centralizada
     
     for (int i = 0; i < linhas_arte; i++) {
         screenGotoxy(x_base, y_arte + i);
         printf("%s", arte[i]);
     }
     
-    // Novo código com espaçamento maior
-int y_final = y_arte + linhas_arte + 8; // Aumentei o espaço de 2 para 8
-screenSetColor(WHITE, BLACK);
-centralizar_texto("Pressione ENTER para voltar ao menu", y_final);
+    // Mensagem final
+    int y_final = 24;
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto("Pressione ENTER para voltar ao menu", y_final);
     
+    fflush(stdout);
     getchar();
 }
 
