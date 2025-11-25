@@ -334,23 +334,27 @@ void desenhar_barra_xp(int xpAtual, int nivel) {
     } else if(valorPorcentagem > 0 && valorPorcentagem <= 0.2){
         screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("Progresso do nivel: ████░░░░░░░░░░░░░░░░");
+        printf("Progresso do Nível: ████░░░░░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0.2 && valorPorcentagem <= 0.4){
         screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("Progresso do nivel: ████████░░░░░░░░░░░░");
+        printf("Progresso do Nível: ████████░░░░░░░░░░░░");
     } else if(valorPorcentagem > 0.4 && valorPorcentagem <= 0.6){
         screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("Progresso do nivel: ████████████░░░░░░░░");
+        printf("Progresso do Nível: ████████████░░░░░░░░");
     } else if(valorPorcentagem > 0.6 && valorPorcentagem <= 0.8){
         screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("Progresso do nivel: ████████████████░░░░");
-    } else{
+        printf("Progresso do Nível: ████████████████░░░░");
+    } else if (valorPorcentagem > 0.8 && valorPorcentagem < 1.0) {
         screenGotoxy(2, 1);
         screenSetColor(CYAN, BLACK);
-        printf("Progresso do nivel: ███████████████████░");
+        printf("Progresso do Nível: ███████████████████░");
+    } else {
+        screenGotoxy(2, 1);
+        screenSetColor(CYAN, BLACK);
+        printf("Progresso do Nível: ████████████████████");
     }
 }
 
@@ -378,119 +382,128 @@ void desenhar_titulo_chef(Player *p) {
 }
 
 int menuSelecaoFase(Player *p) {
-    int escolha = -1;
     int total_receitas = 0;
-    char buffer_input[10];
     char linha[MAX_LINHA];
+    int scroll_offset = 0;
+    int max_receitas_visiveis = 8;
+    int selecionado = 0;
 
     while (1) {
         screenClear();
-        pintar_fundo(150, 45, BLACK);
         pintar_fundo(150, 45, BLACK);
         desenhar_barra_xp(p->xp, calcularNivel(p->xp));
         desenhar_titulo_chef(p);
 
         int y = 5;
 
-    screenSetColor(WHITE, BLACK);
-    centralizar_texto("                LIVRO DE RECEITAS DO DIEGO             ", y++);
-    y++;
-    y++;
-    y++;
+        screenSetColor(WHITE, BLACK);
+        centralizar_texto("                LIVRO DE RECEITAS DO DIEGO             ", y++);
+        y++;
+        y++;
 
         screenSetColor(WHITE, BLACK);
 
         FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
         
-        
-
         total_receitas = 0;
+        char receitas_disponiveis[50][256];
+        int estrelas_disponiveis[50];
         
         while (fgets(linha, sizeof(linha), arquivo)) {
-
             linha[strcspn(linha, "\n")] = 0;
             if (strlen(linha) == 0) continue;
 
-            char *nome_receita = strtok(linha, ",");
+            char linha_copia[MAX_LINHA];
+            strcpy(linha_copia, linha);
             
-
+            char *nome_receita = strtok(linha_copia, ",");
             char *nivel_txt = strtok(NULL, ",");
             int nivel_receita = nivel_txt ? atoi(nivel_txt) : 1;
             
             if (nome_receita && nivel_receita <= calcularNivel(p->xp)) {
-
                 int qtd_estrelas = buscar_estrelas(p->nome, nome_receita);
-
-                char desenho_estrelas[30];
-                montar_string_estrelas(qtd_estrelas, desenho_estrelas);
-
-                char item_menu[150];
-                
-                if (qtd_estrelas > 0) screenSetColor(YELLOW, BLACK);
-                else screenSetColor(WHITE, BLACK);
-
-                sprintf(item_menu, "%d. %-60s  %s", total_receitas + 1, nome_receita, desenho_estrelas);
-                
-                screenGotoxy(2, y);  
-                printf("%s", item_menu);
-                y++;
+                strncpy(receitas_disponiveis[total_receitas], nome_receita, 255);
+                receitas_disponiveis[total_receitas][255] = '\0';
+                estrelas_disponiveis[total_receitas] = qtd_estrelas;
                 total_receitas++;
-    }
-}
-
+            }
+        }
         fclose(arquivo);
-        screenSetColor(WHITE, BLACK);
+
+        // Ajustar scroll_offset baseado no selecionado
+        if (selecionado < scroll_offset) {
+            scroll_offset = selecionado;
+        }
+        if (selecionado >= scroll_offset + max_receitas_visiveis) {
+            scroll_offset = selecionado - max_receitas_visiveis + 1;
+        }
+
+        int inicio = scroll_offset;
+        int fim = scroll_offset + max_receitas_visiveis;
+        if (fim > total_receitas) fim = total_receitas;
+
+        for (int i = inicio; i < fim; i++) {
+            char desenho_estrelas[30];
+            montar_string_estrelas(estrelas_disponiveis[i], desenho_estrelas);
+
+            char item_menu[350]; // Aumentado para 350
+            
+            // Destacar a receita selecionada
+            if (i == selecionado) {
+                screenSetColor(BLACK, WHITE);
+                // Reduzido o padding de 57 para 50
+                snprintf(item_menu, 350, " > %d. %-50s  %s < ", i + 1, receitas_disponiveis[i], desenho_estrelas);
+            } else {
+                if (estrelas_disponiveis[i] > 0) screenSetColor(YELLOW, BLACK);
+                else screenSetColor(WHITE, BLACK);
+                snprintf(item_menu, 350, "   %d. %-50s  %s   ", i + 1, receitas_disponiveis[i], desenho_estrelas);
+            }
+            
+            screenGotoxy(2, y);  
+            printf("%s", item_menu);
+            y++;
+        }
 
         y += 2;
-        centralizar_texto("Digite o número da receita:", y++);
-        y++; 
-       
-        int largura = 80;
-        int largura_caixa = 20;
-        int x_caixa = (largura - largura_caixa) / 2;
         
-        screenSetColor(LIGHTGRAY, BLACK);
-        
-        screenGotoxy(x_caixa, y);
-        printf("┌");
-        for (int i = 0; i < largura_caixa - 2; i++) printf("─");
-        printf("┐");
-        
-        screenGotoxy(x_caixa, y + 1);
-        printf("│");
-        screenGotoxy(x_caixa + largura_caixa - 1, y + 1);
-        printf("│");
-        
-        screenGotoxy(x_caixa, y + 2);
-        printf("└");
-        for (int i = 0; i < largura_caixa - 2; i++) printf("─");
-        printf("┘");
-        
-        screenSetColor(LIGHTGRAY, BLACK);
-        centralizar_texto("Pressione ENTER para confirmar", y + 4);
-        
-        screenGotoxy(x_caixa + 2, y + 1);
+        screenSetColor(GRAY, BLACK);
+        centralizar_texto("Use W/S para navegar e ENTER para confirmar", y);
+
         screenSetColor(WHITE, BLACK);
         
-        fgets(buffer_input, 10, stdin);
-        screenSetColor(WHITE, BLACK);
+        fflush(stdout);
 
-        escolha = atoi(buffer_input);
-
-        if (escolha > 0 && escolha <= total_receitas) {
-            screenSetColor(GREEN, BLACK);
-            centralizar_texto("Carregando ingredientes...", y + 6);
-            fflush(stdout);
-            usleep(2000000); 
-            break; 
-        } else {
-            screenSetColor(RED, BLACK);
-            centralizar_texto("Opção inválida! Tente novamente.", y + 6);
-            screenSetColor(WHITE, BLACK);
-            usleep(1500000); 
+        // Loop de captura de teclas
+        while (1) {
+            if (keyhit()) {
+                int ch = readch();
+                
+                // Navegação W/S
+                if (ch == 'w' || ch == 'W') {
+                    selecionado--;
+                    if (selecionado < 0) selecionado = total_receitas - 1;
+                    break;
+                }
+                if (ch == 's' || ch == 'S') {
+                    selecionado++;
+                    if (selecionado >= total_receitas) selecionado = 0;
+                    break;
+                }
+                
+                // Enter confirma
+                if (ch == 10 || ch == 13) {
+                    screenClear();
+                    pintar_fundo(150, 45, BLACK);
+                    screenSetColor(GREEN, BLACK);
+                    centralizar_texto("Carregando ingredientes...", 15);
+                    fflush(stdout);
+                    usleep(2000000);
+                    return selecionado;
+                }
+            }
+            usleep(50000);
         }
     }
-    return escolha - 1; 
 }
 
 int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char *nomeReceita) {
@@ -613,6 +626,7 @@ const char *arte[] = {
 
     return selecionado;
 }
+
 void mostrarTelaAcerto(char *resposta, int xpGanho) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
