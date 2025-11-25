@@ -84,7 +84,7 @@ int carregarFase(int idFase, Receita *r) {
             for (i = 0; i < qtd; i++) {
                 Ingrediente *ing = &r->ingredientes[i];
                 
-                for(int p=0; p<4; p++) {
+                for(int p=0; p<5; p++) {
                     token = strtok(NULL, ",");
                     if(token) {
                         trim(token);

@@ -429,21 +429,31 @@ const char *arte[] = {
     }
     
     // Premissas mais em cima (começando na linha 5)
-    screenSetColor(WHITE, BLACK);
-    for (int i = 0; i < 4; i++) {
-        if (ing->premissas[i][0] != '\0') {
-            screenGotoxy(2, 4 + i); 
-            printf("- %s", ing->premissas[i]);
-        } else {
-            screenGotoxy(2, 4 + i);
-            printf("-"); 
-        }
+  screenSetColor(WHITE, BLACK);
+    for (int i = 0; i < 5; i++) {
+    // Adiciona um espaço entre a quarta (índice 3) e a quinta (índice 4)
+    int linha = 4 + i;
+    if (i == 4) linha++; // pule uma linha extra para a quinta premissa
+
+    if (i == 4) {
+        screenSetColor(RED, BLACK);   // quinta premissa em vermelho
+    } else {
+        screenSetColor(WHITE, BLACK); // demais em branco
     }
+
+    screenGotoxy(2, linha);
+    if (ing->premissas[i][0] != '\0') {
+        printf("- %s", ing->premissas[i]);
+    } else {
+        printf("-");
+    }
+}
+
 
     // Pergunta
     screenSetColor(GREEN, BLACK);
     screenGotoxy(2, 10);
-    printf("Qual é o ingrediente?");
+    printf("\nQual é o ingrediente?");
 
     fflush(stdout); 
 
