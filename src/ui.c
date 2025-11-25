@@ -512,16 +512,16 @@ void mostrarTelaAcerto(char *resposta, int xpGanho) {
     pintar_fundo(150, 45, BLACK);
     
     screenSetColor(GREEN, BLACK);
-    centralizar_texto("VAMOS ARRASANDO!", 15);
+    centralizar_texto("VAMOS ARRASANDO!", 6);
     
     char msg[100];
     sprintf(msg, "O ingrediente era: %s", resposta);
     screenSetColor(WHITE, BLACK);
-    centralizar_texto(msg, 17);
+    centralizar_texto(msg, 8);
 
     sprintf(msg, "+%d XP", xpGanho);
     screenSetColor(YELLOW, BLACK);
-    centralizar_texto(msg, 19);
+    centralizar_texto(msg, 10);
 
     screenSetColor(WHITE, BLACK);
     getchar(); 
@@ -532,16 +532,16 @@ void mostrarTelaErro(char *escolha, char *correta) {
     pintar_fundo(150, 45, BLACK);
     
     screenSetColor(RED, BLACK);
-    centralizar_texto("VIXY, TÁ ERRADO...", 15);
+    centralizar_texto("VIXY, TÁ ERRADO...", 6);
     
     char msg[100];
     sprintf(msg, "Você escolheu: %s", escolha);
     screenSetColor(GRAY, BLACK);
-    centralizar_texto(msg, 17);
+    centralizar_texto(msg, 8);
 
     sprintf(msg, "A resposta certa era: %s", correta);
     screenSetColor(WHITE, BLACK);
-    centralizar_texto(msg, 19);
+    centralizar_texto(msg, 10);
 
     getchar(); 
 }
