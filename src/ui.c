@@ -405,36 +405,53 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char 
 
     screenSetColor(WHITE, BLACK);
 
-    // Agora mostra o nome da receita
+    // Título da receita
     screenSetColor(CYAN, BLACK);
-    screenGotoxy(2, 2);
-    printf("========================================");
-    screenGotoxy(2, 3);
+    screenGotoxy(2, 1);
     printf("%s - INGREDIENTE %d / %d", nomeReceita, indice, total);
-    screenGotoxy(2, 4);
-    printf("========================================");
 
-    // Dicas alinhadas à esquerda
-    screenSetColor(YELLOW, BLACK);
-    screenGotoxy(2, 7);
-    printf("--- DICAS ---");
+screenSetColor(WHITE, BLACK);
+const char *arte[] = {
+"           █████",
+"      ████     ████",
+"    █              ██",
+"    █               █",
+"     ██           ██",
+"      █████████████",
+"      █ █   █    █ █",
+"       ███         █",
+"        ███      ██",
+"        █  ██ █ █ ██",
+"       ██ ████████ ███████",
+"        ███████████   ███",
+"         █████████",
+};
     
+    int x_arte = 48;
+    int y_arte = 5;
+    
+    int linhas_arte = sizeof(arte) / sizeof(arte[0]);
+    for (int i = 0; i < linhas_arte; i++) {
+        screenGotoxy(x_arte, y_arte + i);
+        printf("%s", arte[i]);
+    }
+    
+    // Premissas mais em cima (começando na linha 5)
     screenSetColor(WHITE, BLACK);
     for (int i = 0; i < 4; i++) {
         if (ing->premissas[i][0] != '\0') {
-            screenGotoxy(2, 9 + i); 
+            screenGotoxy(2, 4 + i); 
             printf("- %s", ing->premissas[i]);
         } else {
-            screenGotoxy(2, 9 + i);
+            screenGotoxy(2, 4 + i);
             printf("-"); 
         }
     }
 
+    // Pergunta
     screenSetColor(GREEN, BLACK);
-    centralizar_texto("--- QUAL E O INGREDIENTE? ---", 15);
-
-    screenSetColor(GRAY, BLACK);
-    centralizar_texto("Use W/S para navegar e ENTER para confirmar", 30);
+    screenGotoxy(2, 10);
+    printf("Qual é o ingrediente?");
 
     fflush(stdout); 
 
@@ -442,8 +459,8 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char 
         
         if (desenhar) {
             for (int i = 0; i < 4; i++) {
-                int y_pos = 18 + (i * 2);
-                int x_pos = 30; 
+                int y_pos = 13 + (i * 2);
+                int x_pos = 2; 
 
                 screenGotoxy(x_pos, y_pos);
 
@@ -455,10 +472,13 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char 
                     printf("   %c) %s   ", 'A' + i, ing->alternativas[i]);
                 }
             }
+            
+            // Instruções embaixo das alternativas (linha 23)
+            screenSetColor(GRAY, BLACK);
+            centralizar_texto("Use W/S para navegar e ENTER para confirmar", 21);
+            
             screenSetColor(WHITE, BLACK); 
-            
             fflush(stdout); 
-            
             desenhar = 0; 
         }
 
@@ -485,7 +505,6 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char 
 
     return selecionado;
 }
-
 void mostrarTelaAcerto(char *resposta, int xpGanho) {
     screenClear();
     pintar_fundo(150, 45, BLACK);
