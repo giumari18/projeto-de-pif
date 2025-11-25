@@ -36,35 +36,26 @@ void centralizar_texto(const char *texto, int y) {
 
 void tela_inicial() {
     const char *arte[] = {
-        "ㅤㅤㅤ █████                          ███                                         ", 
-        "ㅤㅤㅤ▒▒███                          ▒▒▒                                          ", 
-        "ㅤㅤㅤ ▒███         ██████   ███████ ████   ██████   ██████       ██████          ", 
-        "ㅤㅤㅤ ▒███        ███▒▒███ ███▒▒███▒▒███  ███▒▒███ ▒▒▒▒▒███     ▒▒▒▒▒███         ", 
-        "ㅤㅤㅤ ▒███       ▒███ ▒███▒███ ▒███ ▒███ ▒███ ▒▒▒   ███████      ███████         ", 
-        "ㅤㅤㅤ ▒███      █▒███ ▒███▒███ ▒███ ▒███ ▒███  ███ ███▒▒███     ███▒▒███         ", 
-        "ㅤㅤㅤ ███████████▒▒██████ ▒▒███████ █████▒▒██████ ▒▒████████   ▒▒████████        ", 
-        "ㅤㅤㅤ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒   ▒▒▒▒▒███▒▒▒▒▒  ▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒     ▒▒▒▒▒▒▒▒         ", 
-        "ㅤㅤㅤ                      ███ ▒███                                              ", 
-        "ㅤㅤㅤ                     ▒▒██████                                               ", 
-        "ㅤㅤㅤ                      ▒▒▒▒▒▒                                                ", 
-        "ㅤㅤㅤ █████                      █████████                       █████           ", 
-        "ㅤㅤㅤ▒▒███                      ███▒▒▒▒▒███                     ▒▒███            ", 
-        "ㅤㅤㅤ ▒███         ██████      ███     ▒▒▒   ██████   ████████  ███████    ██████", 
-        "ㅤㅤㅤ ▒███        ▒▒▒▒▒███    ▒███          ▒▒▒▒▒███ ▒▒███▒▒███▒▒▒███▒    ███▒▒███",
-        "ㅤㅤㅤ ▒███         ███████    ▒███           ███████  ▒███ ▒▒▒   ▒███    ▒███████", 
-        "ㅤㅤㅤ ▒███      █ ███▒▒███    ▒▒███     ███ ███▒▒███  ▒███       ▒███ ███▒███▒▒▒",  
-        "ㅤㅤㅤ ███████████▒▒████████    ▒▒█████████ ▒▒████████ █████      ▒▒█████ ▒▒██████", 
-        "ㅤㅤㅤㅤ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒      ▒▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒ ▒▒▒▒▒        ▒▒▒▒▒   ▒▒▒▒▒▒",
-        "ㅤ",
-        "ㅤ",
-        "ㅤㅤㅤㅤPressione ENTER para iniciar ou ESC para sair"
+        " █████                          ███                                     █████                      █████████                       █████            ",
+        "░░███                          ░░░                                     ░░███                      ███░░░░░███                     ░░███             ",
+        " ░███         ██████   ███████ ████   ██████   ██████       ██████      ░███         ██████      ███     ░░░   ██████   ████████  ███████    ██████ ",
+        " ░███        ███░░███ ███░░███░░███  ███░░███ ░░░░░███     ░░░░░███     ░███        ░░░░░███    ░███          ░░░░░███ ░░███░░███░░░███░    ███░░███",
+        " ░███       ░███ ░███░███ ░███ ░███ ░███ ░░░   ███████      ███████     ░███         ███████    ░███           ███████  ░███ ░░░   ░███    ░███████ ",
+        " ░███      █░███ ░███░███ ░███ ░███ ░███  ███ ███░░███     ███░░███     ░███      █ ███░░███    ░░███     ███ ███░░███  ░███       ░███ ███░███░░░  ",
+        " ███████████░░██████ ░░███████ █████░░██████ ░░████████   ░░████████    ███████████░░████████    ░░█████████ ░░████████ █████      ░░█████ ░░██████ ",
+        "░░░░░░░░░░░  ░░░░░░   ░░░░░███░░░░░  ░░░░░░   ░░░░░░░░     ░░░░░░░░    ░░░░░░░░░░░  ░░░░░░░░      ░░░░░░░░░   ░░░░░░░░ ░░░░░        ░░░░░   ░░░░░░  ",
+        "                      ███ ░███                                                                                                                      ",
+        "                     ░░██████                                                                                                                       ",
+        "                      ░░░░░░                                                                                                                        ",
+        "",
+        "ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤPressione ENTER para iniciar ou ESC para sair"
     };
 
     screenClear();
     pintar_fundo(150, 45, BLACK);
     screenSetColor(WHITE, BLACK);
 
-    int y = 3;
+    int y = 5;
     int linhas = sizeof(arte) / sizeof(arte[0]);
 
     for (int i = 0; i < linhas; i++) {
@@ -223,6 +214,8 @@ void montar_string_estrelas(int qtd, char *buffer) {
     }
 }
 
+/*
+
 void desenhar_barra_xp(Player *p) {
     int nivel = calcularNivel(p->xp);
     int xp_nivel_atual = xpParaProximoNivel(nivel - 1);
@@ -253,15 +246,13 @@ void desenhar_barra_xp(Player *p) {
     printf("]");
 }
 
+*/
+
 const char* obter_titulo_chef(int nivel) {
-    if (nivel >= 1 && nivel <= 5) return "Aprendiz";
-    else if (nivel >= 6 && nivel <= 10) return "Commis Chef";
-    else if (nivel >= 11 && nivel <= 15) return "Chef de Partie";
-    else if (nivel >= 16 && nivel <= 20) return "Sous Chef";
-    else if (nivel >= 21 && nivel <= 25) return "Chef de Cuisine";
-    else if (nivel >= 26 && nivel <= 30) return "Executive Chef";
-    else if (nivel >= 31) return "Master Chef";
-    else return "Novato";
+    if (nivel == 1) return "Commis Chef";
+    else if (nivel == 2) return "Chef de Partie";
+    else if (nivel == 3) return "Sous Chef";
+    else if (nivel == 4) return "Chef de Cuisine";
 }
 
 void desenhar_titulo_chef(Player *p) {
@@ -290,7 +281,7 @@ int menuSelecaoFase(Player *p) {
         screenClear();
         pintar_fundo(150, 45, BLACK);
         pintar_fundo(150, 45, BLACK);
-        desenhar_barra_xp(p);
+       // desenhar_barra_xp(p);
         desenhar_titulo_chef(p);
 
         int y = 5;
