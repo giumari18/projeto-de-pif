@@ -3,6 +3,7 @@
 
 #include "perfil.h" 
 
+int xpParaProximoNivel(int nivel);
 
 void atualizarXP(int xpGanho, Player *p);
 

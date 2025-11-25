@@ -174,7 +174,7 @@ void historia(Player *p) {
 
     char mensagem[120];
 
-    sprintf(mensagem, "Bem-vinde, Chef %s! (Nivel %d - XP: %d). ENTER para iniciar!", p->nome, nivel, p->xp);
+    sprintf(mensagem, "Bem-vinde, Chef %s! (Nível %d - XP: %d). ENTER para iniciar!", p->nome, nivel, p->xp);
 
     centralizar_texto(mensagem, 16);
     getchar();
@@ -214,6 +214,48 @@ void montar_string_estrelas(int qtd, char *buffer) {
     }
 }
 
+void desenhar_barra_xp(Player *p) {
+    int nivel = calcularNivel(p->xp);
+    int xp_nivel_atual = xpParaProximoNivel(nivel - 1);
+    int xp_proximo_nivel = xpParaProximoNivel(nivel);
+    int xp_progresso = p->xp - xp_nivel_atual;
+    int xp_necessario = xp_proximo_nivel - xp_nivel_atual;
+    
+    // Tamanho da barra
+    int largura_barra = 30;
+    int progresso = (xp_progresso * largura_barra) / xp_necessario;
+    if (progresso > largura_barra) progresso = largura_barra;
+    
+    // Posição no canto superior esquerdo
+    screenGotoxy(2, 1);
+    screenSetColor(CYAN, BLACK);
+    printf("Nível %d", nivel);
+    
+    screenGotoxy(2, 2);
+    screenSetColor(LIGHTGRAY, BLACK);
+    printf("[");
+    
+    // Desenha a barra preenchida
+    screenSetColor(YELLOW, BLACK);
+    for (int i = 0; i < progresso; i++) {
+        printf("█");
+    }
+    
+    // Desenha a parte vazia
+    screenSetColor(GRAY, BLACK);
+    for (int i = progresso; i < largura_barra; i++) {
+        printf("░");
+    }
+    
+    screenSetColor(LIGHTGRAY, BLACK);
+    printf("]");
+    
+    // Mostra XP numérico
+    screenGotoxy(2, 3);
+    screenSetColor(WHITE, BLACK);
+    printf("XP: %d/%d", xp_progresso, xp_necessario);
+}
+
 int menuSelecaoFase(Player *p) {
     int escolha = -1;
     int total_receitas = 0;
@@ -223,6 +265,8 @@ int menuSelecaoFase(Player *p) {
     while (1) {
         screenClear();
         pintar_fundo(150, 45, BLACK);
+        pintar_fundo(150, 45, BLACK);
+        desenhar_barra_xp(p); // <-- Adicione aqui
 
         int y = 3;
         centralizar_texto("====================================================", y++);
@@ -235,7 +279,7 @@ int menuSelecaoFase(Player *p) {
         // Se der erro ao abrir receitas
         if (!arquivo) {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Erro: Arquivo de receitas nao encontrado!", y);
+            centralizar_texto("Erro: Arquivo de receitas não encontrado!", y);
             getchar();
             return -1;
         }
@@ -272,7 +316,7 @@ int menuSelecaoFase(Player *p) {
         screenSetColor(WHITE, BLACK);
 
         y += 2;
-        centralizar_texto("Digite o numero da receita:", y++);
+        centralizar_texto("Digite o número da receita:", y++);
         y++; 
         
         // Desenha a caixinha

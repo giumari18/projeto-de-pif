@@ -15,6 +15,17 @@
 
 char *toLower(char *c);
 
+int xpParaProximoNivel(int nivel) {
+    int xpTotal = 0;
+    int custoAtual = 100;
+    
+    for (int i = 0; i <= nivel; i++) {
+        xpTotal += custoAtual;
+        custoAtual += 50;
+    }
+    
+    return xpTotal;
+}
 
 void atualizarXP(int xpGanho, Player *p){
 
@@ -65,6 +76,7 @@ void atualizarXP(int xpGanho, Player *p){
         }
     }
 
+    
 
     fclose(arquivo);
     fclose(arquivoTemp);
