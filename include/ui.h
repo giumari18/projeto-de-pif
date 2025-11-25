@@ -8,7 +8,7 @@ void historia(Player *p);
 int menuSelecaoFase(Player *p);
 void centralizar_texto(const char *texto, int y);
 
-int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total);
+int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char *nomeReceita);
 
 void mostrarTelaAcerto(char *resposta, int xpGanho);
 void mostrarTelaErro(char *escolha, char *correta);

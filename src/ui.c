@@ -395,7 +395,7 @@ int menuSelecaoFase(Player *p) {
     return escolha - 1; 
 }
 
-int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
+int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char *nomeReceita) {
     int selecionado = 0;
     int rodando = 1;
     int desenhar = 1; 
@@ -405,24 +405,27 @@ int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total) {
 
     screenSetColor(WHITE, BLACK);
 
-    char titulo[100];
-    sprintf(titulo, "INGREDIENTE %d / %d", indice, total);
-    
+    // Agora mostra o nome da receita
     screenSetColor(CYAN, BLACK);
-    centralizar_texto("========================================", 2);
-    centralizar_texto(titulo, 3);
-    centralizar_texto("========================================", 4);
+    screenGotoxy(2, 2);
+    printf("========================================");
+    screenGotoxy(2, 3);
+    printf("%s - INGREDIENTE %d / %d", nomeReceita, indice, total);
+    screenGotoxy(2, 4);
+    printf("========================================");
 
+    // Dicas alinhadas à esquerda
     screenSetColor(YELLOW, BLACK);
-    centralizar_texto("--- DICAS ---", 7);
+    screenGotoxy(2, 7);
+    printf("--- DICAS ---");
     
     screenSetColor(WHITE, BLACK);
     for (int i = 0; i < 4; i++) {
         if (ing->premissas[i][0] != '\0') {
-            screenGotoxy(30, 9 + i); 
+            screenGotoxy(2, 9 + i); 
             printf("- %s", ing->premissas[i]);
         } else {
-            screenGotoxy(30, 9 + i);
+            screenGotoxy(2, 9 + i);
             printf("-"); 
         }
     }
@@ -533,8 +536,6 @@ void mostrarFimFase(char *nomeReceita) {
     getchar();
 }
 
-
-
 void jogarFase(Receita *r, Player *p) {
     int xp_por_acerto = 50;
     int qntAcertos = 0;
@@ -543,7 +544,8 @@ void jogarFase(Receita *r, Player *p) {
         
         Ingrediente *ingAtual = &r->ingredientes[i];
 
-        int indiceEscolhido = rodarQuestaoIngrediente(ingAtual, i + 1, r->quantidadeIngredientes);
+        // Passa r->nome como parâmetro adicional
+        int indiceEscolhido = rodarQuestaoIngrediente(ingAtual, i + 1, r->quantidadeIngredientes, r->nome);
 
         char *textoEscolhido = ingAtual->alternativas[indiceEscolhido];
 
