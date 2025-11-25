@@ -249,14 +249,10 @@ void desenhar_barra_xp(Player *p) {
 */
 
 const char* obter_titulo_chef(int nivel) {
-    if (nivel >= 1 && nivel <= 5) return "Aprendiz";
-    else if (nivel >= 6 && nivel <= 10) return "Commis Chef";
-    else if (nivel >= 11 && nivel <= 15) return "Chef de Partie";
-    else if (nivel >= 16 && nivel <= 20) return "Sous Chef";
-    else if (nivel >= 21 && nivel <= 25) return "Chef de Cuisine";
-    else if (nivel >= 26 && nivel <= 30) return "Executive Chef";
-    else if (nivel >= 31) return "Master Chef";
-    else return "Novato";
+    if (nivel == 1) return "Commis Chef";
+    else if (nivel == 2) return "Chef de Partie";
+    else if (nivel == 3) return "Sous Chef";
+    else if (nivel == 4) return "Chef de Cuisine";
 }
 
 void desenhar_titulo_chef(Player *p) {
