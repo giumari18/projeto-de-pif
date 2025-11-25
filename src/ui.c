@@ -247,6 +247,33 @@ void desenhar_barra_xp(Player *p) {
     printf("]");
 }
 
+const char* obter_titulo_chef(int nivel) {
+    if (nivel >= 1 && nivel <= 5) return "Aprendiz";
+    else if (nivel >= 6 && nivel <= 10) return "Commis Chef";
+    else if (nivel >= 11 && nivel <= 15) return "Chef de Partie";
+    else if (nivel >= 16 && nivel <= 20) return "Sous Chef";
+    else if (nivel >= 21 && nivel <= 25) return "Chef de Cuisine";
+    else if (nivel >= 26 && nivel <= 30) return "Executive Chef";
+    else if (nivel >= 31) return "Master Chef";
+    else return "Novato";
+}
+
+void desenhar_titulo_chef(Player *p) {
+    int nivel = calcularNivel(p->xp);
+    const char *titulo = obter_titulo_chef(nivel);
+    
+    char texto_completo[100];
+    sprintf(texto_completo, "Nível do Chefe: %s", titulo);
+    
+    int largura_tela = 80;
+    int tamanho_texto = strlen(texto_completo);
+    int x_pos = largura_tela - tamanho_texto - 2;
+    
+    screenGotoxy(x_pos, 1);
+    screenSetColor(YELLOW, BLACK);
+    printf("%s", texto_completo);
+}
+
 int menuSelecaoFase(Player *p) {
     int escolha = -1;
     int total_receitas = 0;
@@ -257,13 +284,19 @@ int menuSelecaoFase(Player *p) {
         screenClear();
         pintar_fundo(150, 45, BLACK);
         pintar_fundo(150, 45, BLACK);
-        desenhar_barra_xp(p); // <-- Adicione aqui
+        desenhar_barra_xp(p);
+        desenhar_titulo_chef(p);
 
-        int y = 3;
-        centralizar_texto("====================================================", y++);
-        centralizar_texto("                  LIVRO DE RECEITAS                 ", y++);
-        centralizar_texto("====================================================", y++);
-        y += 2;
+        int y = 5;
+
+        // Adicione o título centralizado aqui
+    screenSetColor(WHITE, BLACK);
+    centralizar_texto("                LIVRO DE RECEITAS DO DIEGO             ", y++);
+    y++;
+    y++;
+    y++;
+
+        screenSetColor(WHITE, BLACK);
 
         FILE *arquivo = fopen(ARQUIVO_RECEITAS, "r");
         
@@ -278,30 +311,33 @@ int menuSelecaoFase(Player *p) {
         total_receitas = 0;
         
         while (fgets(linha, sizeof(linha), arquivo)) {
-            linha[strcspn(linha, "\n")] = 0;
-            if (strlen(linha) == 0) continue;
+    linha[strcspn(linha, "\n")] = 0;
+    if (strlen(linha) == 0) continue;
 
-            char *nome_receita = strtok(linha, ",");
-            
-            if (nome_receita) {
+    char *nome_receita = strtok(linha, ",");
+    
+    if (nome_receita) {
 
-                int qtd_estrelas = buscar_estrelas(p->nome, nome_receita);
+        int qtd_estrelas = buscar_estrelas(p->nome, nome_receita);
 
-                char desenho_estrelas[30];
-                montar_string_estrelas(qtd_estrelas, desenho_estrelas);
+        char desenho_estrelas[30];
+        montar_string_estrelas(qtd_estrelas, desenho_estrelas);
 
-                char item_menu[150];
-                
-                // Cor: Amarelo se tiver estrelas, Branco se nunca jogou
-                if (qtd_estrelas > 0) screenSetColor(YELLOW, BLACK);
-                else screenSetColor(WHITE, BLACK);
+        char item_menu[150];
+        
+        // Cor: Amarelo se tiver estrelas, Branco se nunca jogou
+        if (qtd_estrelas > 0) screenSetColor(YELLOW, BLACK);
+        else screenSetColor(WHITE, BLACK);
 
-                sprintf(item_menu, "%d. %-25s  %s", total_receitas + 1, nome_receita, desenho_estrelas);
-                
-                centralizar_texto(item_menu, y++);
-                total_receitas++;
-            }
-        }
+        sprintf(item_menu, "%d. %-60s  %s", total_receitas + 1, nome_receita, desenho_estrelas);
+        
+        // Em vez de centralizar_texto, use screenGotoxy com posição fixa
+        screenGotoxy(2, y);  // 5 caracteres da margem esquerda
+        printf("%s", item_menu);
+        y++;
+        total_receitas++;
+    }
+}
 
         fclose(arquivo);
         screenSetColor(WHITE, BLACK);
@@ -351,7 +387,7 @@ int menuSelecaoFase(Player *p) {
             break; 
         } else {
             screenSetColor(RED, BLACK);
-            centralizar_texto("Opcao invalida! Tente novamente.", y + 6);
+            centralizar_texto("Opção inválida! Tente novamente.", y + 6);
             screenSetColor(WHITE, BLACK);
             usleep(1500000); 
         }
