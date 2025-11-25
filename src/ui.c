@@ -10,6 +10,7 @@
 #include "xp.h"
 #include "receitas.h"
 #include "avaliacao.h"
+#include "ranking.h"
 
 #define ARQUIVO_PROGRESSO "progresso.csv"
 #define ARQUIVO_RANKING "ranking.csv"
@@ -187,6 +188,90 @@ void historia(Player *p) {
 
     centralizar_texto(mensagem, 16);
     getchar();
+}
+
+void mostrarTelaRanking() {
+    Player topJogadores[100]; 
+
+    int total = buscarRanking(topJogadores, 100);
+
+    screenClear();
+    pintar_fundo(150, 45, BLACK);
+
+    screenSetColor(CYAN, BLACK);
+    const char *arte_titulo[] = {                             
+    "█████▄  ▄████▄ ███  ██ ██ ▄█▀ ██ ███  ██  ▄████  ",              
+    "██▄▄██▄ ██▄▄██ ██ ▀▄██ ████   ██ ██ ▀▄██ ██  ▄▄▄ ",
+    "██   ██ ██  ██ ██   ██ ██ ▀█▄ ██ ██   ██  ▀███▀ "};                  
+        
+    screenSetColor(WHITE, BLACK);
+    int linhas_titulo = sizeof(arte_titulo) / sizeof(arte_titulo[0]);
+    int y_titulo = 1;
+    
+    int max_len_titulo = 0;
+    for (int i = 0; i < linhas_titulo; i++) {
+        int len = strlen(arte_titulo[i]);
+        if (len > max_len_titulo) max_len_titulo = len;
+    }
+    
+    int x_titulo = (80 - max_len_titulo) / 2;
+    for (int i = 0; i < linhas_titulo; i++) {
+        screenGotoxy(x_titulo, y_titulo + i);
+        printf("%s", arte_titulo[i]);
+    }
+    
+    int x_lista = 6;
+    int y_lista = 6;
+    int limite = (total > 10) ? 10 : total;
+
+    for (int i = 0; i < limite; i++) {
+        screenGotoxy(x_lista, y_lista + 3 + i); 
+        
+        if (i == 0) screenSetColor(YELLOW, BLACK);      
+        else if (i == 1) screenSetColor(LIGHTGRAY, BLACK); 
+        else if (i == 2) screenSetColor(BROWN, BLACK);  
+        else screenSetColor(WHITE, BLACK);
+
+        printf("#%-2d   %-18s %5d XP", i + 1, topJogadores[i].nome, topJogadores[i].xp);
+    }
+
+    if (total == 0) {
+        screenSetColor(GRAY, BLACK);
+        screenGotoxy(x_lista, y_lista + 3);
+        printf("Nenhum chef registrado ainda.");
+    }
+
+    screenSetColor(WHITE, BLACK);
+    const char *arte[] = {                             
+        "            █████",              
+        "        ████     ████",          
+        "      █               █",       
+        "      █               █",        
+        "       ██           ██",         
+        "        █████████████",          
+        "       █ █   █    █ █",          
+        "        ██          █",          
+        "          ██      ██",        
+        "          ██████████",          
+        "        █     █  █   █",        
+        "        █  █         █",         
+        "          ██████████",          
+        "          ████  ████",                                                                              
+    };                  
+
+    int linhas_arte = sizeof(arte) / sizeof(arte[0]);
+    int x_arte = 45; 
+    int y_arte = 6; 
+    
+    for (int i = 0; i < linhas_arte; i++) {
+        screenGotoxy(x_arte, y_arte + i);
+        printf("%s", arte[i]);
+    }
+
+    screenSetColor(GREEN, BLACK);
+    centralizar_texto("Pressione ENTER para continuar", 22);
+    
+    getchar(); 
 }
 
 int buscar_estrelas(const char *nomeJogador, const char *nomeFase) {

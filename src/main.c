@@ -19,6 +19,7 @@ int main() {
     timerInit(FRAME_RATE_MS);
 
     tela_inicial();
+    mostrarTelaRanking();
     historia(&player);
 
    int jogando = 1;

@@ -7,7 +7,7 @@ void tela_inicial();
 void historia(Player *p);
 int menuSelecaoFase(Player *p);
 void centralizar_texto(const char *texto, int y);
-
+void mostrarTelaRanking();
 int rodarQuestaoIngrediente(Ingrediente *ing, int indice, int total, const char *nomeReceita);
 
 void mostrarTelaAcerto(char *resposta, int xpGanho);
