@@ -268,7 +268,7 @@ void mostrarTelaRanking() {
         printf("%s", arte[i]);
     }
 
-    screenSetColor(GREEN, BLACK);
+    screenSetColor(WHITE, BLACK);
     centralizar_texto("Pressione ENTER para continuar", 22);
     
     getchar(); 
