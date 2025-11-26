@@ -13,60 +13,173 @@
 
 ## 📖 Descrição do Jogo
 
-Um dia, o professor Diego simplesmente desistiu. Largou a vida de tecnologia, saiu da CESAR School, e decidiu seguir sua verdadeira vocação: a gastronomia. Diego possui grande habilidade culinária, mas estruturou seu livro de receitas de maneira um tanto singular... utilizando premissas e relações lógico-matemáticas para estruturar cada ingrediente e etapa do preparo. E cabe a você auxiliar Diego em sua nova jornada como chef.
+Diego, ex-professor de tecnologia e agora chef em crise existencial, largou tudo para seguir sua paixão pela gastronomia.
+Mas há um detalhe: ele organizou seu livro de receitas como se fosse um tratado de lógica proposicional.
+Cada ingrediente depende de premissas, implicações, conjunções e negações.
 
-Neste jogo, você assume o papel de assistente culinário de Diego. Seu objetivo é ajudá-lo a preparar pratos corretamente ao resolver desafios lógicos que liberam os ingredientes de cada receita.
+Na cozinha de Diego, não basta saber cortar cebola — é preciso provar logicamente que ela deveria estar no prato.
+
+E é aqui que você entra:
+Você é o assistente responsável por transformar o caos da cozinha em ordem lógica gourmet. Somente resolvendo os desafios lógicos você conseguirá liberar os ingredientes e salvar o jantar.
 
 ## 🎯 Objetivo do Jogo
 
-Desbloqueie ingredientes através da análise de premissas lógico-matemáticas!
+Desbloquear ingredientes interpretando premissas lógico-matemáticas — e montar o prato perfeito!
 
-Para finalizar cada prato, você deverá identificar:
+Para finalizar cada receita, você deve deduzir:
 
-* Os ingredientes corretos 
-* As premissas associadas 
-* A composição final do prato
+✔ quais ingredientes realmente pertencem ao prato
 
-Cada receita oferece uma combinação única de condições, desafios e níveis crescentes de dificuldade.
+✔ quais premissas são verdadeiras
+
+✔ qual composição final faz sentido dentro das regras impostas
+
+Cada receita funciona como um puzzle culinário-lógico, com dificuldade crescente, novos ingredientes e relações cada vez mais complexas.
 
 ## 🍲 Como Jogar
 
 ### 🧾 Sistema de Receitas
 
-Cada receita possui:
+Cada receita apresenta:
 
-* Lista de ingredientes
-* ASCII art
-* Nível de dificuldade
-* Premissas que determinam quais ingredientes podem ser usados
+- Lista de ingredientes
 
-Seu papel é interpretar essas premissas corretamente.
+- Arte ASCII temática
 
-### 🔍 Premissas e Dedução
+- Nível de dificuldade
 
-Ao iniciar uma receita, você receberá proposições como:
+- Premissas que controlam o uso de cada ingrediente
 
-“Se o ingrediente X for usado, o ingrediente Y não pode ser adicionado.”
-<br>“O ingrediente Z só pode ser liberado se duas premissas forem verdadeiras.”
+Seu trabalho é interpretar essas regras e decidir o que pode ou não pode entrar na panela.
+Errou uma premissa?
+O prato pode sair… estranho. 😬
 
-Marque cada premissa como verdadeira ou falsa para liberar (ou bloquear) ingredientes.
+## 🔍 Premissas e Dedução
 
-### 🥕 Liberação dos Ingredientes
+Ao iniciar uma receita, você verá afirmações como:
+
+“Se houver alho, não pode haver cebola.”
+
+“Tomate só entra no prato se as premissas 1 e 3 forem verdadeiras.”
+
+“Ou manjericão ou orégano — mas nunca os dois.”
+
+Aqui começa o raciocínio lógico: cada premissa funciona como um conectivo (E, OU, SE-ENTÃO, NÃO) que define a validade de um ingrediente.
+
+Seu papel é marcar cada premissa como verdadeira ou falsa e deduzir:
+
+👉 Qual ingrediente está liberado
+👉 Qual ingrediente deve ser bloqueado
+👉 Qual combinação respeita todas as regras
+
+## 🥕 Liberação dos Ingredientes
 
 Com base nas suas respostas:
 
-* Ingredientes corretos são adicionados
-* Ingredientes equivocados são removidos ou inseridos incorretamente
-* O resultado final depende da sua dedução
+- Ingredientes corretos são liberados para Diego
+- Ingredientes incorretos são descartados
+- Ingredientes mal deduzidos entram na receita e… bagunçam tudo
+- A combinação final depende 100% da sua lógica
 
-### 🍽️ Preparação e Avaliação
+Cada decisão muda o resultado final. Não existe chute: existe inferência.
 
-Após resolver as premissas:
+## 🍽️ Preparação e Avaliação
 
-* Diego monta o prato com os ingredientes liberados
-* O prato recebe uma nota de 1 a 5 estrelas, conforme a precisão
-* Notas altas geram XP
+Depois que você resolve as premissas, Diego monta o prato baseado nas suas escolhas.
 
-### 📈 Progresso
+A avaliação final usa um sistema de 1 a 5 estrelas, considerando:
 
-Acumule XP, desbloqueie receitas mais complexas e ajude Diego a evoluir de Aprendiz a Chef Executivo. Conquiste **badges**, **títulos** e domine a culinária por meio da lógica.
+1. sua precisão lógica
+2. sua capacidade de completar a receita
+3. sua eficiência nas tentativas
+
+Quanto mais bem montado o prato, mais estrelas (e elogios culinários/lógicos) você recebe.
+E, claro, isso gera XP para subir de nível.
+
+## 📈 Progresso
+
+Acumule XP, avance na hierarquia da cozinha e desbloqueie desafios cada vez mais elaborados.
+
+✨ Comece como Aprendiz
+
+🍳 Evolua para Commis
+
+🥘 Chegue a Sous Chef
+
+🏅 Torne-se Chef Executivo
+
+👑 E conquiste a glória máxima: Master Chef Executivo
+
+Cada nível libera novas receitas, premissas mais complexas, conectivos mais traiçoeiros e ingredientes mais difíceis de deduzir.
+
+⚡ Mais rápido
+
+🎯 Mais preciso
+
+🧠 Mais lógico
+
+👨‍🍳 Mais chef
+
+---
+
+
+## 🎮 Como rodar o jogo
+
+
+Para executar o jogo localmente, siga os passos abaixo:
+
+
+### ⬇️ 1. Baixando dependências
+
+
+- Para rodar, você precisa ter o gcc:
+
+
+**Ubuntu**
+```bash
+sudo apt update
+sudo apt install build-essential
+```
+
+
+**Fedora**
+```bash
+sudo dnf install gcc gcc-c++
+```
+
+
+**Arch / Manjaro**
+```bash
+sudo pacman -S gcc
+```
+
+
+
+
+### 📥 2. Clonar o repositório
+
+
+```bash
+git clone https://github.com/giumari18/projeto-de-pif.git
+cd projeto-de-pif
+```
+
+
+### 🔨 3. Compilar o projeto utilizando o Makefile
+
+
+```bash
+make
+```
+
+
+### ▶️ 4. Executar o jogo após a compilação
+
+
+```bash
+./build/cli_exec
+```
+
+
+
+
