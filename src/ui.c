@@ -572,7 +572,7 @@ const char *arte[] = {
     // Pergunta
     screenSetColor(GREEN, BLACK);
     screenGotoxy(2, 10);
-    printf("\nQual é o ingrediente?");
+    printf("\n  Logo, ");
 
     fflush(stdout); 
 
